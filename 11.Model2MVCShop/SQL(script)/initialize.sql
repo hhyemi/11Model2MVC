@@ -159,3 +159,33 @@ FROM (	SELECT inner_table. * ,  ROWNUM AS row_seq
 WHERE row_seq BETWEEN 4 AND 6;
 
 //==> (currentPage-1) * paseSize+1           currentPage * paseSize
+
+
+
+
+///product 컬럼 count 추가해야함
+alter table product add(count number(10));
+
+create table cart(
+cart_no number NOT NULL,
+USER_ID varchar2(20) NOT NULL,
+PROD_NO NUMBER NOT NULL,
+cart_count number 
+);
+
+CREATE SEQUENCE seq_cart_cart_no	INCREMENT BY 1 START WITH 10000;
+
+
+create table review(
+review_no number NOT NULL,
+USER_ID varchar2(20) NOT NULL,
+PROD_NO NUMBER NOT NULL,
+image_file 	VARCHAR2(100),
+review_text varchar2(500),
+evaluation varchar2(20)
+);
+
+CREATE SEQUENCE seq_review_review_no	INCREMENT BY 1 START WITH 10000;
+
+alter table review add(password varchar2(20));
+alter table review add(title varchar2(20));

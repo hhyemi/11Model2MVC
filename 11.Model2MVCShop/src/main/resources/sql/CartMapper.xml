@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="CartMapper">
+
+
+	<resultMap id="cartSelectMap" type="cart">
+		<result property="cartNo" column="CART_NO" jdbcType="INTEGER" />
+		<result property="buyer.userId" column="USER_ID" jdbcType="VARCHAR" />
+		<result property="cartProd.prodNo" column="PROD_NO" jdbcType="INTEGER" />
+		<result property="cartProd.prodName" column="PROD_NAME" jdbcType="VARCHAR" />
+		<result property="cartProd.prodDetail" column="PROD_DETAIL" jdbcType="VARCHAR" />
+		<result property="cartProd.price" column="PRICE" jdbcType="INTEGER" />
+		<result property="cartProd.fileName" column="IMAGE_FILE" jdbcType="VARCHAR" />
+		<result property="cartProd.count" column="COUNT" jdbcType="INTEGER" />
+		<result property="cartCount" column="CART_COUNT" jdbcType="INTEGER" />
+	</resultMap>
+
+	<!-- SQL : INSERT -->
+	<insert id="addCart" parameterType="cart">
+		INSERT
+		INTO CART(
+		CART_NO , USER_ID , PROD_NO , CART_COUNT )
+		VALUES (SEQ_CART_CART_NO.NEXTVAL ,
+		#{buyer.userId:VARCHAR} , #{cartProd.prodNo:INTEGER} , #{cartCount:INTEGER}
+		 )
+	</insert>
+
+	<!-- SQL : SELECT ONE -->
+	<select id="getCart" parameterType="string" resultMap="cartSelectMap">
+		SELECT
+		CART_NO , USER_ID , c.PROD_NO , p.PROD_NAME , p.PROD_DETAIL,
+		p.MANUFACTURE_DAY,p.PRICE,p.IMAGE_FILE,p.COUNT,CART_COUNT 
+		FROM CART c, PRODUCT p 	
+		WHERE CART_NO = #{value}  and c.prod_no in p.prod_no
+	</select>
+	
+		<!-- SQL : SELECT ONE -->
+	<select id="getCart2" parameterType="map" resultMap="cartSelectMap">
+		SELECT
+		CART_NO , USER_ID , PROD_NO,CART_COUNT
+		FROM CART 
+		WHERE USER_ID = #{buyerId}  and PROD_NO = #{prodNo}
+	</select>
+	
+	<!-- SQL : UPDATE -->
+	<update id="updateCart" parameterType="cart">
+		UPDATE cart
+		<set>
+			CART_COUNT = CART_COUNT+1
+		</set>
+		WHERE CART_NO = #{cartNo}
+	</update>
+	
+	<delete id="deleteCart" parameterType="string">
+		DELETE
+		FROM CART
+		WHERE CART_NO = #{value}
+	</delete>
+
+
+	<!-- SQL : SELECT LIST -->
+	<select id="getCartList" parameterType="search" resultMap="cartSelectMap">
+		SELECT *
+		FROM ( SELECT inner_table.* , ROWNUM AS row_seq
+		FROM (	SELECT
+		CART_NO , USER_ID , c.PROD_NO , p.PROD_NAME , p.PROD_DETAIL,
+		p.MANUFACTURE_DAY,p.PRICE,p.IMAGE_FILE,p.COUNT,CART_COUNT 
+		FROM CART c,PRODUCT p
+		<where>
+			<if test="buyerId != null ">
+			 user_id =
+			#{buyerId}
+			</if>	
+			AND c.prod_no = p.prod_no
+			
+		</where>	
+		) inner_table
+		WHERE ROWNUM &lt;= #{endRowNum} )
+		WHERE row_seq BETWEEN
+		#{startRowNum} AND
+		#{endRowNum}
+	</select>
+	
+	
+	
+	<select id="getTotalCount" parameterType="string" resultType="int">
+		SELECT COUNT(*)
+		FROM( SELECT
+		CART_NO , USER_ID , PROD_NO
+		FROM CART
+		<where>
+			 user_id =
+			#{value}
+		</where>
+		) countTable
+	</select>
+</mapper>

@@ -10,7 +10,7 @@
 	
 	<div class="container">
 	       
-		<a class="navbar-brand" href="/index.jsp">Model2 MVC Shop</a>
+		<a class="navbar-brand" href="/index.jsp">★Hyemi Shop★</a>
 		
 		<!-- toolBar Button Start //////////////////////// -->
 		<div class="navbar-header">
@@ -52,12 +52,13 @@
 	               <c:if test="${sessionScope.user.role == 'admin'}">
 		              <li class="dropdown">
 		                     <a  href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-		                         <span >판매상품관리</span>
+		                         <span >판매상품</span>
 		                         <span class="caret"></span>
 		                     </a>
 		                     <ul class="dropdown-menu">
 		                         <li><a href="#">판매상품등록</a></li>
 		                         <li><a href="#">판매상품관리</a></li>
+		                         <li><a href="#">배송상품관리</a></li>
 		                         <li class="divider"></li>
 		                         <li><a href="#">etc..</a></li>
 		                     </ul>
@@ -76,6 +77,8 @@
 	                         <c:if test="${sessionScope.user.role == 'user'}">
 	                           <li><a href="#">구매이력조회</a></li>
 	                         </c:if>
+	                         
+	                         <li><a href="#">장 바 구 니</a></li>
 	                         
 	                         <li><a href="#">최근본상품</a></li>
 	                         <li class="divider"></li>
@@ -118,10 +121,64 @@
 			}); 
 		 });
 		
-		//=============  개인정보조회회 Event  처리 =============	
+		//=============  개인정보조회 Event  처리 =============	
 	 	$( "a:contains('개인정보조회')" ).on("click" , function() {
 	 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			$(self.location).attr("href","/user/getUser?userId=${sessionScope.user.userId}");
 		});
 		
+		//=============  판매상품등록 Event  처리 =============	
+		$( "a:contains('판매상품등록')" ).on("click" , function() {
+		 		self.location = "../product/addProductView.jsp";
+		});
+		
+		//=============  판매상품관리 Event  처리 =============	
+		$( "a:contains('판매상품관리')" ).on("click" , function() {
+		 		self.location = "/product/listProduct?menu=manage";
+		});	
+		
+		//=============  배송상품관리 Event  처리 =============	
+		$( "a:contains('배송상품관리')" ).on("click" , function() {
+		 		self.location = "/purchase/listDelivery?menu=manage";
+		});	
+		
+		//=============  상 품 검 색 Event  처리 =============	
+		$( "a:contains('상 품 검 색')" ).on("click" , function() {
+		 		self.location = "/product/listProduct?menu=search";
+		});
+		
+		//=============  구매이력조회 Event  처리 =============	
+		$( "a:contains('구매이력조회')" ).on("click" , function() {
+		 		self.location = "/purchase/listPurchase";
+		});
+		
+		//=============  구매이력조회 Event  처리 =============	
+		$( "a:contains('장 바 구 니')" ).on("click" , function() {
+		 		self.location = "/cart/listCart";
+		});	
+		
+		//=============  최근 본 상품 Event  처리 =============	
+		$( "a:contains('최근본상품')" ).on("click" , function() {
+	 		 window.open("/history.jsp",
+						"popWin",
+						"left=300, top=200, width=300, height=200, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
+				});
 	</script>  
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

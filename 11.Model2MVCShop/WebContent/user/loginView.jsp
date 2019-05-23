@@ -24,6 +24,11 @@
         	border: 3px solid #D6CDB7;
             margin-top: 10px;
         }
+		        
+		.pink {
+		  background-color: #F9A0A0;
+		  color: #fff;
+		}
     </style>
     
     <!--  ///////////////////////// JavaScript ////////////////////////// -->
@@ -73,7 +78,7 @@
 	<!-- ToolBar Start /////////////////////////////////////-->
 	<div class="navbar  navbar-default">
         <div class="container">
-        	<a class="navbar-brand" href="/index.jsp">Model2 MVC Shop</a>
+        	<a class="navbar-brand" href="/index.jsp">★Hyemi Shop★</a>
    		</div>
    	</div>
    	<!-- ToolBar End /////////////////////////////////////-->	
@@ -84,7 +89,7 @@
 		<div class="row">
 		
 			<div class="col-md-6">
-					<img src="/images/logo-spring.png" class="img-rounded" width="100%" />
+					<img src="/images/uploadFiles/1111.gif" class="img-rounded" width="100%" />
 			</div>
 	   	 	
 	 	 	<div class="col-md-6">
@@ -92,19 +97,19 @@
 		 	 	<br/><br/>
 				
 				<div class="jumbotron">	 	 	
-		 	 		<h1 class="text-center">로 &nbsp;&nbsp;그 &nbsp;&nbsp;인</h1>
+		 	 		<h1 class="text-center">LOGIN</h1>
 
 			        <form class="form-horizontal">
 		  
 					  <div class="form-group">
-					    <label for="userId" class="col-sm-4 control-label">아 이 디</label>
+					    <label for="userId" class="col-sm-4 control-label">ID</label>
 					    <div class="col-sm-6">
 					      <input type="text" class="form-control" name="userId" id="userId"  placeholder="아이디" >
 					    </div>
 					  </div>
 					  
 					  <div class="form-group">
-					    <label for="password" class="col-sm-4 control-label">패 스 워 드</label>
+					    <label for="password" class="col-sm-4 control-label">PASSWORD</label>
 					    <div class="col-sm-6">
 					      <input type="password" class="form-control" name="password" id="password" placeholder="패스워드" >
 					    </div>
@@ -112,8 +117,8 @@
 					  
 					  <div class="form-group">
 					    <div class="col-sm-offset-4 col-sm-6 text-center">
-					      <button type="button" class="btn btn-primary"  >로 &nbsp;그 &nbsp;인</button>
-					      <a class="btn btn-primary btn" href="#" role="button">회 &nbsp;원 &nbsp;가 &nbsp;입</a>
+					      <button type="button"  class="pink" >로 &nbsp;그 &nbsp;인</button>
+					      <button type="button" class="pink">회 &nbsp;원 &nbsp;가 &nbsp;입</button>
 					    </div>
 					  </div>
 			

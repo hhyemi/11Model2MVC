@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ReviewMapper">
+
+
+	<resultMap id="reviewSelectMap" type="review">
+		<result property="reviewNo" column="REVIEW_NO" jdbcType="INTEGER" />
+		<result property="buyer.userId" column="USER_ID" jdbcType="VARCHAR" />
+		<result property="reviewProd.prodNo" column="PROD_NO" jdbcType="INTEGER" />
+		<result property="fileName" column="IMAGE_FILE" jdbcType="VARCHAR" />
+		<result property="reviewText" column="REVIEW_TEXT" jdbcType="VARCHAR" />
+		<result property="evaluation" column="EVALUATION " jdbcType="VARCHAR" />
+		<result property="password" column="PASSWORD " jdbcType="VARCHAR" />
+		<result property="title" column="TITLE " jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!-- SQL : INSERT -->
+	<insert id="addReview" parameterType="review">
+		INSERT
+		INTO review(
+		REVIEW_NO , USER_ID , PROD_NO , IMAGE_FILE , REVIEW_TEXT,EVALUATION,PASSWORD,TITLE)
+		VALUES (SEQ_REVIEW_REVIEW_NO.NEXTVAL ,
+		#{buyer.userId:VARCHAR} , #{reviewProd.prodNo:INTEGER}  ,#{fileName:VARCHAR} ,
+		#{reviewText:VARCHAR} , #{evaluation:VARCHAR},#{password:VARCHAR},#{title:VARCHAR}  )
+	</insert>
+
+	<!-- SQL : SELECT ONE -->
+	<select id="getReview" parameterType="string" resultMap="reviewSelectMap">
+		SELECT
+		REVIEW_NO , USER_ID , PROD_NO , IMAGE_FILE , REVIEW_TEXT,EVALUATION,TITLE
+		FROM review
+		WHERE REVIEW_NO = #{value}
+	</select>
+
+	<!-- SQL : UPDATE -->
+	<update id="updateReview" parameterType="review">
+		UPDATE review
+		<set>
+			TITLE = #{title:VARCHAR},
+			IMAGE_FILE = #{fileName:VARCHAR} ,
+			REVIEW_TEXT = #{reviewText:VARCHAR},
+			EVALUATION =  #{evaluation:VARCHAR}  
+		</set>
+		WHERE REVIEW_NO = #{reviewNo}
+	</update>
+	
+		<!-- SQL : pwcheck SELECT -->
+	<select id="pwCheckReview" parameterType="review" resultMap="reviewSelectMap">
+		select REVIEW_NO , USER_ID , PROD_NO , IMAGE_FILE , REVIEW_TEXT,EVALUATION,PASSWORD,TITLE
+		FROM review
+		<where>
+			REVIEW_NO = #{reviewNo} AND
+			PASSWORD = #{password}
+		</where>	
+	</select>
+
+	<!-- SQL : SELECT LIST -->
+	<select id="getReviewList" parameterType="search" resultMap="reviewSelectMap">
+		SELECT *
+		FROM ( SELECT inner_table.* , ROWNUM AS row_seq
+		FROM (	SELECT
+		REVIEW_NO , USER_ID , PROD_NO , IMAGE_FILE , REVIEW_TEXT,EVALUATION,TITLE
+		FROM review
+		<where>
+			<if test="prodNo != null ">
+			AND PROD_NO = #{prodNo}
+			</if>
+		</where>		
+		) inner_table
+		WHERE ROWNUM &lt;= #{endRowNum} )
+		WHERE row_seq BETWEEN
+		#{startRowNum} AND
+		#{endRowNum}
+	</select>
+
+
+	<!-- SQL : SELECT ROW Count -->
+	<select id="getTotalCount" parameterType="cart" resultType="int">
+		SELECT COUNT(*)
+		FROM( SELECT
+		REVIEW_NO , USER_ID , PROD_NO , IMAGE_FILE , REVIEW_TEXT,EVALUATION,TITLE
+		FROM review
+		<where>
+			<if test="prodNo != null ">
+			AND PROD_NO = #{prodNo}
+			</if>
+		</where>
+		) countTable
+	</select>
+
+</mapper>

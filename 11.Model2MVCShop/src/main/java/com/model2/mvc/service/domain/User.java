@@ -20,6 +20,8 @@ public class User {
 	private String phone1;
 	private String phone2;
 	private String phone3;
+	private String textEmail;
+	private String selectEmail;
 
 	
 	
@@ -81,6 +83,11 @@ public class User {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+		
+		if(email != null && email.length()!=0) {
+			textEmail = email.split("@")[0];
+			selectEmail= email.split("@")[1];
+		}
 	}
 	public Date getRegDate() {
 		return regDate;
@@ -99,12 +106,24 @@ public class User {
 		return phone3;
 	}
 
+	public String getTextEmail() {
+		return textEmail;
+	}
+
+	public String getSelectEmail() {
+		return selectEmail;
+	}
+
+
+	
 	@Override
 	public String toString() {
-		return "UserVO : [userId] "+userId+" [userName] "+userName+" [password] "+password+" [role] "+ role
-			+" [ssn] "+ssn+" [phone] "+phone+" [email] "+email+" [regDate] "+regDate;
+		return "User [userId=" + userId + ", userName=" + userName + ", password=" + password + ", role=" + role
+				+ ", ssn=" + ssn + ", phone=" + phone + ", addr=" + addr + ", email=" + email + ", regDate=" + regDate
+				+ ", phone1=" + phone1 + ", phone2=" + phone2 + ", phone3=" + phone3 + ", textEmail=" + textEmail
+				+ ", selectEmail=" + selectEmail + "]";
 	}
-	
+
 	////////////////////////////////////////////////////////////////////////////////////////
 	// JSON ==> Domain Object  Binding을 위해 추가된 부분
 	// POJO 의 중요성
@@ -119,5 +138,15 @@ public class User {
 	public void setPhone3(String phone3) {
 		this.phone3 = phone3;
 	}
+
+	public void setTextEmail(String textEmail) {
+		this.textEmail = textEmail;
+	}
+
+	public void setSelectEmail(String selectEmail) {
+		this.selectEmail = selectEmail;
+	}
+	
+	
 	/////////////////////////////////////////////////////////////////////////////////////////
 }
