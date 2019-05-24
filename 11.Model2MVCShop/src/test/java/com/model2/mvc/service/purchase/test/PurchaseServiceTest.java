@@ -50,7 +50,7 @@ public class PurchaseServiceTest {
 		purchase.setTranCode("1");
 		//purchase.setDivyDate("19950801");
 
-		purchaseService.addPurchase(purchase);
+		//purchaseService.addPurchase(purchase);
 
 		// ==> console »Æ¿Œ
 		System.out.println(purchase);

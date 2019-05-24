@@ -100,22 +100,22 @@
       </ol>
       <div class="carousel-inner" role="listbox">
         <div class="item active">
-          <img class="first-slide" src="/images/uploadFiles/10.png" alt="First slide">
-          <div class="container">
-            <div class="carousel-caption">
-              <h1>회원가입 해주세여~~~~~~~~~~</h1>
-              <p>회원가입~~~~~~~.</p>
-              <p><a class="btn btn-default btn-lg" href="/user/addUser" role="button">singup</a></p>
-            </div>
-          </div>
-        </div>
-        <div class="item">
           <img class="second-slide" src="/images/uploadFiles/10.png" alt="Second slide">
           <div class="container">
             <div class="carousel-caption">
               <h1>로그인 해주세요</h1>
               <p>로그인~~~~~~~~~</p>
               <p><a class="btn btn-default btn-lg" href="/user/login" role="button">Login</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <img class="first-slide" src="/images/uploadFiles/10.png" alt="First slide">
+          <div class="container">
+            <div class="carousel-caption">
+              <h1>회원가입 해주세여~~~~~~~~~~</h1>
+              <p>회원가입~~~~~~~.</p>
+              <p><a class="btn btn-default btn-lg" href="/user/addUser" role="button">singup</a></p>
             </div>
           </div>
         </div>

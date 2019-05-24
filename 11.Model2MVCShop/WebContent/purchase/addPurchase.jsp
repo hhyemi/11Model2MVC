@@ -66,6 +66,44 @@
 	       <h3 class=" text-info">상 품 구 매</h3>
 	       <h5 class="text-muted">상품을 <strong class="text-danger">구매</strong>했습니다.</h5>
 	    </div>
+	    
+  <!--  table Start /////////////////////////////////////-->
+      <table class="table table-hover table-striped" >
+      
+        <thead>
+          <tr>
+            <th align="center">No</th>
+            <th align="left" >상품명</th>
+             <th align="left" >상품이미지</th>
+			<th align="left">상품상세정보</th>   			
+          </tr>
+        </thead>
+       
+ 		<tbody>				
+		  <c:set var="i" value="0" />
+		  <c:forEach var="product" items="${list}">
+			<c:set var="i" value="${ i+1 }" />
+			<tr>		
+			  <td align="center">${ i }</td>
+			  <td align="left"  title="Click : 상품정보 확인">${product.prodName}		  
+			  </td>
+			  <td align="left">
+					<c:if test="${ empty product.fileName }">
+						 <img src="/images/uploadFiles/no_image.gif" width="100px;" height="100px;"/>						    
+					 </c:if>
+					<c:if test="${ !empty product.fileName}">						    
+						      <img src="/images/uploadFiles/${product.fileName}"  width="100px;" height="100px;"/>
+					</c:if>			  
+			  </td>			  
+			  <td align="left">${product.prodDetail}</td>						 		  
+			</tr>
+          </c:forEach>
+        
+        </tbody> 
+      
+      </table>
+	  <!--  table End /////////////////////////////////////--> 
+ 	<hr/>
 	
 		<div class="row">
 	  		<div class="col-xs-4 col-md-2"><strong>구매자아이디</strong></div>
@@ -117,6 +155,8 @@
 			<div class="col-xs-8 col-md-4">${purchase.divyRequest}</div>
 		</div>
 		
+		<hr/>		
+		
 		<div class="row">
 	  		<div class="col-xs-4 col-md-2 "><strong>배송희망일자</strong></div>
 			<div class="col-xs-8 col-md-4">${purchase.divyDate}</div>
@@ -132,7 +172,7 @@
 		  </div>
 		
 		<br/>
-		
+		<br/>
  	</div>
  	<!--  화면구성 div Start /////////////////////////////////////-->
 

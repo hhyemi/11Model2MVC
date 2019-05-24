@@ -47,10 +47,9 @@
 	// 검색 / page 두가지 경우 모두 Form 전송을 위해 JavaScrpt 이용  
 
 function fncGetList(currentPage) {
-
    	$("#currentPage").val(currentPage)
-   	$("form").attr("method" , "POST").attr("action" , "/review/listReview?prod_no=${review.reviewProd.prodNo}" ).submit();
- 
+   	$("form").attr("method" , "POST").attr("action" , "/review/listReview?prod_no="+$("#prodNo").val()).submit();
+
 }
 	
 	
@@ -158,11 +157,15 @@ $(function(){
 		    		전체  ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage}  페이지
 		    	</p>
 		    </div>
+		     <form class="form-inline" name="detailForm">
+			 <input type="hidden" id="currentPage" name="currentPage" value=""/>
+			 </form>	
 		   		   
 		</div>
 		<!-- table 위쪽 검색 Start /////////////////////////////////////-->
  	
 	<hr/>
+	
       <!--  table Start /////////////////////////////////////-->
       <table class="table table-hover table-striped" >
       
@@ -181,11 +184,10 @@ $(function(){
 		  <c:forEach var="review" items="${list}">
 			<c:set var="i" value="${ i+1 }" />
 			<tr>
-			
 			  <td align="left" >${ i }</td>
-			  <td align="left" title="Click : 후기정보 확인">${review.title}
+			  <td align="left" >${review.title}
 			  <c:if test="${review.fileName != null }">
-			  <i class="glyphicon glyphicon-picture" ></i>
+			  <img  src="/images/uploadFiles/picture_icon.gif">
 			  </c:if>
 			  <p  id="${review.reviewNo}"></p>
 			  
@@ -210,12 +212,14 @@ $(function(){
 				<input type="hidden" value="${review.reviewNo }" /></i>
 			  </td>					 
 			</tr>
+		<input type="hidden" id="prodNo" name="prodNo" value="${review.reviewProd.prodNo}"/>
           </c:forEach>
         
         </tbody> 
       
       </table>
      <input type="hidden" id="prodNo" value="${product.prodNo}" />	
+
 	  <!--  table End /////////////////////////////////////--> 
 		<div class="row">
 			 <div class="col-md-12 text-right">

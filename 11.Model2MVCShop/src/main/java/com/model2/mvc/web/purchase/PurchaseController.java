@@ -1,5 +1,7 @@
 package com.model2.mvc.web.purchase;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -54,42 +56,55 @@ public class PurchaseController {
 	// @Value("#{commonProperties['pageSize'] ?: 2}")
 	int pageSize;
 
-	@RequestMapping(value="addPurchase",method=RequestMethod.GET)
-	public String addPurchase(@RequestParam("prod_no") int prodNo, HttpSession session, Model model)
+	@RequestMapping(value = "addPurchase", method = RequestMethod.GET)
+	public String addPurchase(@RequestParam("prod_no") String prodNo, HttpSession session, Model model)
 			throws Exception {
 
 		System.out.println("/purchase/addPurchase : GET");
 
+		// System.out.println(prodNo);
+
 		User user = (User) session.getAttribute("user");
 
-		Product product = productService.getProduct(prodNo);
-		
+		Map<String, Object> map = productService.getgetProduct(prodNo);
+
 		Purchase purchase = new Purchase();
-		
+
 		purchase.setBuyer(user);
-		purchase.setPurchaseProd(product);
+		// purchase.setPurchaseProd(product);
 
-
+		model.addAttribute("list", map.get("list"));
 		model.addAttribute("purchase", purchase);
+		model.addAttribute("prodNo", prodNo);
 
 		return "forward:/purchase/addPurchaseView.jsp";
 	}
 
-	@RequestMapping(value="addPurchase",method=RequestMethod.POST)
-	public String addPurchase(@ModelAttribute("purchase") Purchase purchase, @RequestParam("prodNo") int prodNo,
-			HttpSession session) throws Exception {
+	@RequestMapping(value = "addPurchase", method = RequestMethod.POST)
+	public String addPurchase(@ModelAttribute("purchase") Purchase purchase, @RequestParam("prodNo") String prodNo,
+			HttpSession session, Model model) throws Exception {
 
 		System.out.println("/purchase/addPurchase : POST");
 
 		User user = (User) session.getAttribute("user");
-		Product product = productService.getProduct(prodNo);
-		purchase.setBuyer(user);
-		purchase.setPurchaseProd(product);
-		
-		productService.updateProductCount(prodNo);
 
-		purchaseService.addPurchase(purchase);
-		
+		Map<String, Object> map = productService.getgetProduct(prodNo);
+
+		List<Product> produ = (List<Product>) map.get("list");
+
+		List<Purchase> purcha = new ArrayList<>();
+		for (Product product : produ) {
+			purchase.setBuyer(user);
+
+			purchase.setPurchaseProd(product);
+			productService.updateProductCount(product.getProdNo());
+			purcha.add(purchase);
+
+		}
+		purchaseService.addPurchase(purcha);
+
+		model.addAttribute("list", map.get("list"));
+
 		return "forward:/purchase/addPurchase.jsp";
 	}
 
@@ -104,7 +119,7 @@ public class PurchaseController {
 		return "forward:/purchase/getPurchase.jsp";
 	}
 
-	@RequestMapping(value="listPurchase")
+	@RequestMapping(value = "listPurchase")
 	public String listPurchase(@ModelAttribute("search") Search search, Model model, HttpSession session)
 			throws Exception {
 
@@ -130,7 +145,7 @@ public class PurchaseController {
 
 		return "forward:/purchase/listPurchase.jsp";
 	}
-	
+
 	@RequestMapping(value = "listDelivery")
 	public String listDelivery(@ModelAttribute("search") Search search, Model model, HttpSession session)
 			throws Exception {
@@ -149,7 +164,6 @@ public class PurchaseController {
 		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit,
 				pageSize);
 		System.out.println(resultPage);
-		
 
 		// Model 과 View 연결
 		model.addAttribute("list", map.get("list"));
@@ -159,7 +173,7 @@ public class PurchaseController {
 		return "forward:/purchase/listDelivery.jsp";
 	}
 
-	@RequestMapping(value="updatePurchase",method=RequestMethod.GET)
+	@RequestMapping(value = "updatePurchase", method = RequestMethod.GET)
 	public String updatePurchase(@RequestParam("tranNo") int tranNo, Model model) throws Exception {
 
 		System.out.println("/purchase/updatePurchase : GET");
@@ -171,7 +185,7 @@ public class PurchaseController {
 		return "forward:/purchase/updatePurchaseView.jsp";
 	}
 
-	@RequestMapping(value="updatePurchase",method=RequestMethod.POST)
+	@RequestMapping(value = "updatePurchase", method = RequestMethod.POST)
 	public String updatePurchase(@ModelAttribute("purchase") Purchase purchase, @RequestParam("tranNo") int tranNo,
 			Model model) throws Exception {
 
@@ -181,7 +195,7 @@ public class PurchaseController {
 		return "redirect:/purchase/getPurchase?tranNo=" + tranNo;
 	}
 
-	@RequestMapping(value="updateTranCode")
+	@RequestMapping(value = "updateTranCode")
 	public String updateTranCode(@ModelAttribute("purchase") Purchase purchase, @ModelAttribute("search") Search search,
 			@RequestParam("tranNo") int tranNo, @RequestParam("tranCode") String tranCode, Model model,
 			HttpSession session) throws Exception {
@@ -214,7 +228,7 @@ public class PurchaseController {
 
 	}
 
-	@RequestMapping(value="updateTranCodeByProd")
+	@RequestMapping(value = "updateTranCodeByProd")
 	public String updateTranCodeByProd(@ModelAttribute("purchase") Purchase purchase,
 			@ModelAttribute("search") Search search, @RequestParam("tranNo") int tranNo,
 			@RequestParam("tranCode") String tranCode, Model model, HttpSession session) throws Exception {
@@ -224,14 +238,13 @@ public class PurchaseController {
 		}
 		search.setPageSize(pageSize);
 		search.setPriceSort("all");
-		
+
 		System.out.println("/purchase/updateTranCodeByProd");
-		
+
 		purchase = purchaseService.getPurchase(tranNo);
-		
+
 		purchase.setTranCode(tranCode);
 		purchaseService.updateTranCode(purchase);
-		
 
 		User user = (User) session.getAttribute("user");
 
@@ -241,26 +254,24 @@ public class PurchaseController {
 				pageSize);
 		System.out.println(resultPage);
 
-
 		// Model 과 View 연결
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
 
 		return "forward:/purchase/listDelivery?menu=manage";
-		//return "forward:/product/listProduct?menu=manage";
+		// return "forward:/product/listProduct?menu=manage";
 	}
-	
-	@RequestMapping(value="deletePurchase")
-	public String deletePurchase(@ModelAttribute("purchase") Purchase purchase,
-			@ModelAttribute("search") Search search, @RequestParam("tranNo") int tranNo,
-			 Model model, HttpSession session) throws Exception {
+
+	@RequestMapping(value = "deletePurchase")
+	public String deletePurchase(@ModelAttribute("purchase") Purchase purchase, @ModelAttribute("search") Search search,
+			@RequestParam("tranNo") int tranNo, Model model, HttpSession session) throws Exception {
 
 		if (search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
 		}
 		search.setPageSize(pageSize);
-		
+
 		System.out.println("/purchase/deletePurchase");
 
 		purchaseService.deletePurchase(tranNo);

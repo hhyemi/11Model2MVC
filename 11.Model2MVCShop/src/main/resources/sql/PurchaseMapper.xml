@@ -26,24 +26,25 @@
 
 	</resultMap>
 
+
 	<!-- SQL : INSERT -->
-	<insert id="addPurchase" parameterType="purchase">
-		INSERT
-		INTO transaction(
+	<insert id="addPurchase" parameterType="java.util.List">
+		INSERT ALL		
+		
+		<foreach collection="list" item="item" >
+        INTO transaction(
 		TRAN_NO , PROD_NO , BUYER_ID , PAYMENT_OPTION , RECEIVER_NAME,
 		RECEIVER_PHONE, DEMAILADDR, DLVY_REQUEST,
 		TRAN_STATUS_CODE,ORDER_DATA,DLVY_DATE )
-		VALUES
-		(SEQ_TRANSACTION_TRAN_NO.NEXTVAL ,
-		#{purchaseProd.prodNo:INTEGER} ,
-		#{buyer.userId:VARCHAR} ,#{paymentOption:INTEGER}
-		,#{receiverName:VARCHAR},
-		#{receiverPhone:VARCHAR} ,
-		#{divyAddr:VARCHAR}
-		,#{divyRequest:VARCHAR},1,SYSDATE ,#{divyDate:DATE}
-		)
+		
+		 VALUES (GET_TRANSACTION_ID(),
+        #{item.purchaseProd.prodNo:INTEGER}, #{item.buyer.userId:VARCHAR},
+        #{item.paymentOption:INTEGER}, #{item.receiverName:VARCHAR},
+        #{item.receiverPhone:VARCHAR}, #{item.divyAddr:VARCHAR},      
+        #{item.divyRequest:VARCHAR},1,SYSDATE, #{item.divyDate:DATE})
+  		  </foreach>
+		select * from DUAL
 	</insert>
-	
 
 	<!-- SQL : SELECT ONE -->
 	<select id="getPurchase" parameterType="string" resultMap="purchaseSelectMap">

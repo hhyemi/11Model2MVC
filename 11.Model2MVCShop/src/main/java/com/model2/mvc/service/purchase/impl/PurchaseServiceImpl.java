@@ -22,12 +22,11 @@ public class PurchaseServiceImpl implements PurchaseService {
 	public void setPurchaseDao(PurchaseDao purchaseDao) {
 		this.purchaseDao = purchaseDao;
 	}
-
 	@Override
-	public void addPurchase(Purchase purchase) throws Exception {
+	public void addPurchase(List<Purchase> purchase) throws Exception {
 		purchaseDao.addPurchase(purchase);
+		
 	}
-
 	@Override
 	public Purchase getPurchase(int tranNo) throws Exception {
 		return purchaseDao.getPurchase(tranNo);

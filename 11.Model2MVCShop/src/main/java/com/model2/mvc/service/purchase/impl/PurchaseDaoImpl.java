@@ -40,9 +40,11 @@ public class PurchaseDaoImpl implements PurchaseDao {
 		// TODO Auto-generated method stub
 		
 	}
+
 	@Override
-	public void addPurchase(Purchase purchase) throws Exception {
-		sqlSession.insert("PurchaseMapper.addPurchase", purchase);
+	public void addPurchase(List<Purchase> purchase) throws Exception {
+		sqlSession.insert("PurchaseMapper.addPurchase",purchase);
+		
 	}
 	@Override
 	public void updateTranCode(Purchase purchase) throws Exception {
@@ -84,9 +86,5 @@ public class PurchaseDaoImpl implements PurchaseDao {
 		map.put("shippingCondition", search.getShippingCondition());
 		return sqlSession.selectOne("PurchaseMapper.getTotalCount",map);
 	}
-
-
-
-	
 
 }

@@ -189,3 +189,14 @@ CREATE SEQUENCE seq_review_review_no	INCREMENT BY 1 START WITH 10000;
 
 alter table review add(password varchar2(20));
 alter table review add(title varchar2(20));
+
+// 시퀀스 함수
+create or replace
+FUNCTION GET_TRANSACTION_ID RETURN NUMBER AS
+num NUMBER;
+BEGIN
+  SELECT SEQ_TRANSACTION_TRAN_NO.NEXTVAL
+  INTO num
+  FROM dual;
+  return num;
+END GET_TRANSACTION_ID;

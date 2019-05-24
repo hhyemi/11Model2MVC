@@ -10,6 +10,8 @@ public interface ProductDao {
 
 	public Product getProduct(int prodNo) throws Exception;
 
+	public List<Product> getgetProduct(String prodNo) throws Exception;
+	
 	public void addProduct(Product product) throws Exception;
 
 	public List<Product> getProductList(Search search) throws Exception;

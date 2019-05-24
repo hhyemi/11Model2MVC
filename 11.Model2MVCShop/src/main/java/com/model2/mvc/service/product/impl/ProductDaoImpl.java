@@ -30,6 +30,11 @@ public class ProductDaoImpl implements ProductDao {
 	public Product getProduct(int prodNo) throws Exception {
 		return sqlSession.selectOne("ProductMapper.getProduct", prodNo);
 	}
+	
+	@Override
+	public List<Product> getgetProduct(String prodNo) throws Exception {
+		return sqlSession.selectList("ProductMapper.getgetProduct", prodNo);
+	}
 
 	@Override
 	public void addProduct(Product product) throws Exception {

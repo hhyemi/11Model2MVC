@@ -39,6 +39,14 @@
 		WHERE PROD_NO = #{value}
 	</select>
 
+	<!-- SQL : SELECT ONE -->
+	<select id="getgetProduct" parameterType="string" resultMap="productSelectMap">
+		SELECT
+		PROD_NO , PROD_NAME , PROD_DETAIL , MANUFACTURE_DAY , PRICE,
+		IMAGE_FILE,REG_DATE,COUNT
+		FROM product
+		WHERE PROD_NO in (${value})
+	</select>
 	<!-- SQL : UPDATE -->
 	<update id="updateProduct" parameterType="product">
 		UPDATE product
