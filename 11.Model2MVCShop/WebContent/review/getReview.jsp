@@ -170,7 +170,7 @@
 		<c:if test="${review.fileName != null }">
 		<div class="row">
 	  		<div class="col-xs-4 col-md-2 "><strong>후기이미지</strong></div>
-			<div class="col-xs-8 col-md-4"><img src="/images/uploadFiles/${review.fileName}" /></div>
+			<div class="col-xs-8 col-md-4"><img src="/images/uploadFiles/${review.fileName}" width="400px;" height="400px;" /></div>
 		</div>
 		<hr/>
 		</c:if>

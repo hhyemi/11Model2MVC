@@ -60,27 +60,13 @@
 		</set>
 		WHERE PROD_NO = #{prodNo}
 	</update>
-	
-	<!-- SQL : UPDATE 재고-1 -->
-	<update id="updateProductCount" parameterType="string">
-		UPDATE product
-		<set>
-			COUNT = COUNT-1
-		</set>
-		WHERE PROD_NO = #{prodNo}
-	</update>
-	
-<!-- 	<select id="autocomplete" parameterType="string" resultType="">
-		SELECT 
-	</select> -->
-	
 
 
 	<!-- SQL : SELECT LIST -->
 	<select id="getProductList" parameterType="search" resultMap="productSelectMap">
 		SELECT *
 		FROM ( SELECT inner_table.* , ROWNUM AS row_seq
-		FROM (SELECT
+		FROM (SELECT DISTINCT
 		p.PROD_NO,p.PROD_NAME, p.PROD_DETAIL, p.MANUFACTURE_DAY,
 		p.PRICE,p.IMAGE_FILE,p.REG_DATE,p.COUNT,NVL(TRAN_STATUS_CODE,'0') STATUS_CODE
 		FROM PRODUCT p,TRANSACTION t
@@ -131,7 +117,7 @@
 	<!-- SQL : SELECT ROW Count -->
 	<select id="getTotalCount" parameterType="search" resultType="int">
 		SELECT COUNT(*)
-		FROM( SELECT p.PROD_NO,p.PROD_NAME
+		FROM( SELECT DISTINCT p.PROD_NO,p.PROD_NAME
 		FROM product p,TRANSACTION t
 			<where>
 				<if test="searchCondition != null">

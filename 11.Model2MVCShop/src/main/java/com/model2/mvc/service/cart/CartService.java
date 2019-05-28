@@ -10,7 +10,7 @@ public interface CartService {
 
 	public void addCart(Cart cart) throws Exception;
 
-	public Cart getCart(int cartNo) throws Exception;
+	public Map<String, Object> getCart(String cartNo) throws Exception;
 
 	public Cart getCart2(int prodNo, String buyerId) throws Exception;
 
@@ -18,5 +18,5 @@ public interface CartService {
 
 	public Map<String, Object> getCartList(Search search, String buyerId) throws Exception;
 
-	public void deleteCart(int cartNo) throws Exception;
+	public void deleteCart(String cartNo) throws Exception;
 }

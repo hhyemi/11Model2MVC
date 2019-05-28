@@ -166,6 +166,9 @@ WHERE row_seq BETWEEN 4 AND 6;
 ///product 컬럼 count 추가해야함
 alter table product add(count number(10));
 
+update product set count = 50;
+
+//장바구니 테이블
 create table cart(
 cart_no number NOT NULL,
 USER_ID varchar2(20) NOT NULL,
@@ -175,7 +178,7 @@ cart_count number
 
 CREATE SEQUENCE seq_cart_cart_no	INCREMENT BY 1 START WITH 10000;
 
-
+//구매 후기 테이블
 create table review(
 review_no number NOT NULL,
 USER_ID varchar2(20) NOT NULL,
@@ -200,3 +203,8 @@ BEGIN
   FROM dual;
   return num;
 END GET_TRANSACTION_ID;
+
+//구매에 count 추가
+alter table transaction add(count number(10));
+
+commit;

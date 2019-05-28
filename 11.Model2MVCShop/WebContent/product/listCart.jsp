@@ -68,51 +68,52 @@ $(function(){
 		$( "td:nth-child(4)" ).on("click",function(){
 			self.location ="/product/getProduct?prodNo="+$(this).children("input").val()+"&menu=${param.menu}";
 		});
-	
-		//============= "이전"  Event 처리 및  연결 =============
-		 $( "button.btn.btn-success" ).on("click" , function() {
-				history.go(-1);
-			});
-  		//============= "삭제"  Event 처리 및  연결 =============
+  		//============= "버튼으로 삭제"  Event 처리 및  연결 =============
 		 $( "button.btn.btn-danger" ).on("click" , function() {
 			 self.location ="/cart/deleteCart?cartNo="+$("#cartNo").val();
 		 });
 			 
+	
+		//============= "체크해서 삭제"  Event 처리 및  연결 =============
+		 $( "button.btn.btn-success" ).on("click" , function() {
+			 var checkArray2 = [];
+			 $("input[name=productCheck]:checked").each(function() { 
+				 var check2 = $(this).val();
+				 checkArray2.push(check2);
+				
+			 });
+			   // alert(checkArray)
+				 self.location ="/cart/deleteCart?cartNo="+checkArray2;
+			 
+		});
   		//============= "구매"  Event 처리 및  연결 =============
 		 $( "button.btn.btn-primary" ).on("click" , function() { 
 			 	var checkArray = [];
 				$("input[name=productCheck]:checked").each(function() {
+					
 					var check = $(this).val();
 					//alert(check)
 
 					 checkArray.push(check);
 					 //alert(checkArray)
-					 //alert("/purchase/addPurchase?prod_no="+checkArray)
-/* 					 var count = ${product.count};
-					 if(count==0){
-						 alert("재고가 없어 구매할수 없습니다.")
-						 return;
-					 }else{
-						self.location="/purchase/addPurchase?prod_no="+check
-					 }   */
 				});
 				if(checkArray ==""){
 					alert("선택한 상품이 없습니다.")
 					return;
 				}
-				self.location="/purchase/addPurchase?prod_no="+checkArray
+				self.location="/purchase/addCartPurchase?cartNo="+checkArray
  
 			});   
 	  		//============= "체크박스 전체해제 전체삭제"  Event 처리 및  연결 ============= 		
 				    $("#allCheck").click(function(){
 				        //클릭되었으면
-				        if($("#allCheck").prop("checked")){
+				        if($("#allCheck").not(":disabled").prop("checked")){
 				            //input태그의 name이 chk인 태그들을 찾아서 checked옵션을 true로 정의
-				            $("input[name=productCheck]").prop("checked",true);
+				            $("input[name=productCheck]").not(":disabled").prop("checked",true);
 				            //클릭이 안되있으면
 				        }else{
 				            //input태그의 name이 chk인 태그들을 찾아서 checked옵션을 false로 정의
-				            $("input[name=productCheck]").prop("checked",false);
+				            $("input[name=productCheck]").not(":disabled").prop("checked",false);
 				        }
 				    });
 
@@ -175,12 +176,12 @@ $(function(){
 			<c:set var="i" value="${ i+1 }" />
 			<tr>	
 			  <td >
-			 <c:if test="${cart.cartProd.count eq 0}">
-			  <input type="checkbox" name="productCheck" value="${cart.cartProd.prodNo}" disabled ="true">
-			  </c:if>
-			 <c:if test="${!(cart.cartProd.count eq 0)}">
-			  <input type="checkbox" name="productCheck" value="${cart.cartProd.prodNo}" >
-			  </c:if>			  
+			  <c:if test="${cart.cartProd.count eq 0}">
+			  <input type="checkbox" name="productCheck" value="${cart.cartNo}" disabled>		
+			  </c:if>  
+			  <c:if test="${!(cart.cartProd.count eq 0)}">
+			  <input type="checkbox" name="productCheck" value="${cart.cartNo}" >		
+			  </c:if>  			  
 			  </td>
 			  <td align="center">${ i }</td>
 			  <td align="left"  title="Click : 상품정보 확인"><strong class="text-secondary">${cart.cartProd.prodName}</strong></td>	
@@ -219,7 +220,7 @@ $(function(){
 	  
 		<div class="row">
 			 <div class="col-md-2 text-center">
-	  			<button type="button" class="btn btn-success">PREVIOUS</button>		
+	  			<button type="button" class="btn btn-success">DELETE</button>		
 	  		</div> 		
 	  		<div class="col-md-10 text-center">
 	  			<button type="button" class="btn btn-primary">BUY NOW</button>

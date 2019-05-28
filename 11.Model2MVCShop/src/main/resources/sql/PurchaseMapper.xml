@@ -23,7 +23,7 @@
 		<result property="tranCode" column="TRAN_STATUS_CODE" jdbcType="CHAR" />
 		<result property="orderDate" column="ORDER_DATA" jdbcType="DATE" />
 		<result property="divyDate" column="DLVY_DATE" jdbcType="DATE" />
-
+		<result property="count" column="COUNT" jdbcType="INTEGER" />
 	</resultMap>
 
 
@@ -35,13 +35,13 @@
         INTO transaction(
 		TRAN_NO , PROD_NO , BUYER_ID , PAYMENT_OPTION , RECEIVER_NAME,
 		RECEIVER_PHONE, DEMAILADDR, DLVY_REQUEST,
-		TRAN_STATUS_CODE,ORDER_DATA,DLVY_DATE )
+		TRAN_STATUS_CODE,ORDER_DATA,DLVY_DATE,COUNT )
 		
 		 VALUES (GET_TRANSACTION_ID(),
         #{item.purchaseProd.prodNo:INTEGER}, #{item.buyer.userId:VARCHAR},
         #{item.paymentOption:INTEGER}, #{item.receiverName:VARCHAR},
         #{item.receiverPhone:VARCHAR}, #{item.divyAddr:VARCHAR},      
-        #{item.divyRequest:VARCHAR},1,SYSDATE, #{item.divyDate:DATE})
+        #{item.divyRequest:VARCHAR},1,SYSDATE, #{item.divyDate:DATE}, #{item.count:INTEGER})
   		  </foreach>
 		select * from DUAL
 	</insert>
@@ -51,7 +51,7 @@
 		SELECT
 		TRAN_NO , PROD_NO , BUYER_ID , PAYMENT_OPTION , RECEIVER_NAME,
 		RECEIVER_PHONE, DEMAILADDR, DLVY_REQUEST,
-		TRAN_STATUS_CODE,ORDER_DATA,DLVY_DATE
+		TRAN_STATUS_CODE,ORDER_DATA,DLVY_DATE,COUNT
 		FROM transaction
 		WHERE TRAN_NO =
 		#{value}
@@ -62,7 +62,7 @@
 		SELECT
 		TRAN_NO , PROD_NO , BUYER_ID , PAYMENT_OPTION , RECEIVER_NAME,
 		RECEIVER_PHONE, DEMAILADDR, DLVY_REQUEST,
-		TRAN_STATUS_CODE,ORDER_DATA,DLVY_DATE
+		TRAN_STATUS_CODE,ORDER_DATA,DLVY_DATE,COUNT
 		FROM transaction
 		WHERE PROD_NO =
 		#{value}
@@ -77,8 +77,8 @@
 			RECEIVER_PHONE=#{receiverPhone:VARCHAR},
 			DEMAILADDR=#{divyAddr:VARCHAR},
 			DLVY_REQUEST=#{divyRequest:VARCHAR},
-			DLVY_DATE=#{divyDate:DATE}
-
+			DLVY_DATE=#{divyDate:DATE},
+			COUNT = #{count:INTEGER}
 		</set>
 		WHERE tran_No = #{tranNo}
 	</update>
@@ -108,7 +108,7 @@
 		SELECT
 		TRAN_NO , PROD_NO , BUYER_ID , PAYMENT_OPTION , RECEIVER_NAME,
 		RECEIVER_PHONE, DEMAILADDR, DLVY_REQUEST,
-		TRAN_STATUS_CODE,ORDER_DATA,DLVY_DATE
+		TRAN_STATUS_CODE,ORDER_DATA,DLVY_DATE,COUNT
 		FROM transaction
 		<where>
 			<if test="buyerId != null ">
@@ -151,7 +151,7 @@
 		PAYMENT_OPTION , RECEIVER_NAME,
 		RECEIVER_PHONE, DEMAILADDR,
 		DLVY_REQUEST,
-		TRAN_STATUS_CODE,ORDER_DATA,DLVY_DATE
+		TRAN_STATUS_CODE,ORDER_DATA,DLVY_DATE,COUNT
 		FROM transaction
 		<where>
 			<if test="buyerId != null ">

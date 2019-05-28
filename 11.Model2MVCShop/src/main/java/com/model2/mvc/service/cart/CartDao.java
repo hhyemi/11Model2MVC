@@ -1,6 +1,7 @@
 package com.model2.mvc.service.cart;
 
 import java.util.List;
+import java.util.Map;
 
 import com.model2.mvc.common.Search;
 import com.model2.mvc.service.domain.Cart;
@@ -8,7 +9,7 @@ import com.model2.mvc.service.domain.Product;
 
 public interface CartDao {
 
-	public Cart getCart(int cartNo) throws Exception;
+	public List<Cart> getCart(String cartNo) throws Exception;
 
 	public Cart getCart2(int prodNo, String buyerId) throws Exception;
 
@@ -20,5 +21,5 @@ public interface CartDao {
 
 	public int getTotalCount(String buyerId) throws Exception;
 
-	public void deleteCart(int cartNo) throws Exception;
+	public void deleteCart(String cartNo) throws Exception;
 }

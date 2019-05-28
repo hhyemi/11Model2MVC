@@ -75,7 +75,8 @@
             <th align="center">No</th>
             <th align="left" >상품명</th>
              <th align="left" >상품이미지</th>
-			<th align="left">상품상세정보</th>   			
+			<th align="left">상품상세정보</th>  
+			<th align="left">구매수량</th>  
           </tr>
         </thead>
        
@@ -95,7 +96,8 @@
 						      <img src="/images/uploadFiles/${product.fileName}"  width="100px;" height="100px;"/>
 					</c:if>			  
 			  </td>			  
-			  <td align="left">${product.prodDetail}</td>						 		  
+			  <td align="left">${product.prodDetail}</td>						 	
+			  <td align="left">${purchase.count}</td>			  
 			</tr>
           </c:forEach>
         
@@ -126,7 +128,7 @@
 			
 			</div>
 		</div>
-		
+			
 		<hr/>
 		
 		<div class="row">

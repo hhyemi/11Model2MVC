@@ -38,8 +38,8 @@
             padding-top : 50px;
         }
         .thumbnail{
-        	width : 350px;
-        	height : 550px;
+        	width : 270px;
+        	height: 450px;
         }
 
     </style>
@@ -249,7 +249,7 @@
 				<div class="row">
 				 	 <c:set var="i" value="0" />
 				 	 <c:forEach var="product" items="${list}">
-						  <div class="col-sm-6 col-md-4" >
+						  <div class="col-sm-4 col-md-3" >
 							<c:set var="i" value="${ i+1 }" />					
 						    <a href="#" class="thumbnail" >
 						    <input type="hidden" value="${product.prodNo }" />
@@ -257,7 +257,7 @@
 						      <img src="/images/uploadFiles/no_image.gif"/>						    
 						    </c:if>
 						    <c:if test="${ !empty product.fileName}">						    
-						      <img src="/images/uploadFiles/${product.fileName}"  width="400px;" height="400px;"/>
+						      <img src="/images/uploadFiles/${product.fileName}"  width="300px;" height="300px;"/>
 						     </c:if>
 						      <div class="caption">
 						        <h3 class="bg-info">${product.prodName}</h3>
@@ -270,7 +270,7 @@
 							<c:set var="code" value="${fn:substring(product.proTranCode,0,1)}"/>
 
 								<c:if test = "${product.count eq 0}">
-									<h4 class="text-danger">★★★★★★품절★★★★★★ </h4>
+									<h4 class="text-danger">★★★품절★★★ </h4>
 								</c:if>
 
 						

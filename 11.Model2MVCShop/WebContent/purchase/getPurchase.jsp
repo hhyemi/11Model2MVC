@@ -83,6 +83,14 @@
 		<hr/>
 		
 		<div class="row">
+	  		<div class="col-xs-4 col-md-2"><strong>구매수량</strong></div>
+			<div class="col-xs-8 col-md-4">${purchase.count}</div>
+		</div>
+		
+		<hr/>
+		
+		
+		<div class="row">
 	  		<div class="col-xs-4 col-md-2 "><strong>구매자아이디</strong></div>
 			<div class="col-xs-8 col-md-4">${purchase.buyer.userId}</div>
 		</div>

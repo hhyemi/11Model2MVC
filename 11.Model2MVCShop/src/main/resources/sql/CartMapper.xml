@@ -35,7 +35,7 @@
 		CART_NO , USER_ID , c.PROD_NO , p.PROD_NAME , p.PROD_DETAIL,
 		p.MANUFACTURE_DAY,p.PRICE,p.IMAGE_FILE,p.COUNT,CART_COUNT 
 		FROM CART c, PRODUCT p 	
-		WHERE CART_NO = #{value}  and c.prod_no in p.prod_no
+		WHERE CART_NO in (${value}) and c.prod_no in p.prod_no
 	</select>
 	
 		<!-- SQL : SELECT ONE -->
@@ -58,7 +58,7 @@
 	<delete id="deleteCart" parameterType="string">
 		DELETE
 		FROM CART
-		WHERE CART_NO = #{value}
+		WHERE CART_NO in (${value})
 	</delete>
 
 
@@ -75,7 +75,7 @@
 			 user_id =
 			#{buyerId}
 			</if>	
-			AND c.prod_no = p.prod_no
+			AND c.prod_no = p.prod_no 
 			
 		</where>	
 		) inner_table

@@ -54,16 +54,16 @@
 
 		
 		//============= userId 에 회원정보보기  Event  처리(Click) =============
-		$( "td:nth-child(2)" ).on("click" , function() {
+		$( "td:nth-child(3)" ).on("click" , function() {
 			 self.location ="/user/getUser?userId="+$(this).text().trim();	
 		});
-		$( "td:nth-child(2)" ).css("color" , "blue");		
+		$( "td:nth-child(3)" ).css("color" , "blue");		
 		
 		//============= 배송정보보기  Event  처리(Click) =============		
-		$( "td:nth-child(5)" ).on("click" , function() {
+		$( "td:nth-child(6)" ).on("click" , function() {
 			 self.location ="/purchase/getPurchase?tranNo="+$(this).children("input").val()	
 		}); 
-		$( "td:nth-child(5)" ).css("color" , "green");	
+		$( "td:nth-child(6)" ).css("color" , "green");	
 				
 		//============= "골라보기"  Event   처리 =============
 		$( "#shippingCondition" ).change(function(){
@@ -71,7 +71,7 @@
 		});		
 
 		//============= "정보수정"  Event   처리 =============		
-		$(  "td:nth-child(6)" ).on("click" , function() {
+		$(  "td:nth-child(7)" ).on("click" , function() {
 		if($($(this).children("input")[3]).val()==2){
 
  		self.location ="/purchase/updateTranCode?tranNo="
@@ -85,10 +85,10 @@
 		}			
 		 
 		}); 
-		$( "td:nth-child(6)" ).css("color" , "purple");	
+		$( "td:nth-child(7)" ).css("color" , "purple");	
 		
 		//============= 간략히보기  Event  처리(Click) =============		
-		 $( " td:nth-child(7)" ).on("click" , function() {
+		 $( " td:nth-child(8)" ).on("click" , function() {
 			 var tranNo = $(this).children("input").val();
 			// alert(tranNo)
 				$.ajax( 
@@ -181,7 +181,8 @@
       
         <thead>
           <tr>
-            <th align="center">No</th>         
+            <th align="center">No</th>   
+            <th align="left" >주문일</th>    
             <th align="left" >회원ID</th>
             <th align="left">구매자이름</th>
             <th align="left">구매자번호</th>
@@ -199,6 +200,7 @@
 			<tr>
 			
 			  <td align="center">${ i }</td>
+			  <td align="left">${ purchase.orderDate }</td>
 			  <td align="left"  title="Click : 회원정보 확인">${purchase.buyer.userId} 		  
 			  <td align="left">${purchase.receiverName}</td>
 			  <td align="left">${purchase.receiverPhone}</td>	

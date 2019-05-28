@@ -48,9 +48,6 @@ public class ProductController {
 		System.out.println(this.getClass());
 	}
 
-	// ==> classpath:config/common.properties , classpath:config/commonservice.xml
-	// 참조 할것
-	// ==> 아래의 두개를 주석을 풀어 의미를 확인 할것
 	@Value("#{commonProperties['pageUnit']}")
 	// @Value("#{commonProperties['pageUnit'] ?: 3}")
 	int pageUnit;
@@ -63,8 +60,7 @@ public class ProductController {
 	// @Value("#{commonProperties['pageSize'] ?: 2}")
 	String fileroot;
 
-	// @RequestMapping("/addProductView.do")
-	// public ModelAndView addProductView() throws Exception {
+
 	@RequestMapping(value = "addProduct", method = RequestMethod.GET)
 	public ModelAndView addProduct() throws Exception {
 
@@ -172,9 +168,6 @@ public class ProductController {
 		}
 	}
 
-	// @RequestMapping("/updateProductView.do")
-	// public ModelAndView updateProductView(@RequestParam("prodNo") int prodNo,
-	// Model model) throws Exception {
 	@RequestMapping(value = "updateProduct", method = RequestMethod.GET)
 	public ModelAndView updateProduct(@RequestParam("prodNo") int prodNo, Model model) throws Exception {
 

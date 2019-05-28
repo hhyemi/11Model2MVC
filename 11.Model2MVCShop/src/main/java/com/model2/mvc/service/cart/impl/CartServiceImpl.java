@@ -33,8 +33,11 @@ public class CartServiceImpl implements CartService {
 	}
 
 	@Override
-	public Cart getCart(int cartNo) throws Exception {
-		return cartDao.getCart(cartNo);
+	public Map<String, Object> getCart(String cartNo) throws Exception {
+		List<Cart> list = cartDao.getCart(cartNo);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list);
+		return map;
 	}
 
 	@Override
@@ -42,11 +45,6 @@ public class CartServiceImpl implements CartService {
 		return cartDao.getCart2(prodNo,buyerId);
 	}
 
-	@Override
-	public void deleteCart(int cartNo) throws Exception {
-		cartDao.deleteCart(cartNo);
-
-	}
 
 	@Override
 	public Map<String, Object> getCartList(Search search, String buyerId) throws Exception {
@@ -64,6 +62,12 @@ public class CartServiceImpl implements CartService {
 	@Override
 	public void updateCart(Cart cart) throws Exception {
 		cartDao.updateCart(cart);
+		
+	}
+
+	@Override
+	public void deleteCart(String cartNo) throws Exception {
+		cartDao.deleteCart(cartNo);
 		
 	}
 

@@ -13,13 +13,13 @@ import com.model2.mvc.service.domain.Product;
 import com.model2.mvc.service.product.ProductDao;
 import com.model2.mvc.service.product.ProductService;
 
-
 @Service("productServiceImpl")
 public class ProductServiceImpl implements ProductService {
-	///Field
+	/// Field
 	@Autowired
 	@Qualifier("productDaoImpl")
 	private ProductDao productDao;
+
 	public void setProductDao(ProductDao productDao) {
 		this.productDao = productDao;
 	}
@@ -37,37 +37,31 @@ public class ProductServiceImpl implements ProductService {
 	public Product getProduct(int prodNo) throws Exception {
 		return productDao.getProduct(prodNo);
 	}
-	
+
 	@Override
-	public  Map<String, Object> getgetProduct(String prodNo) throws Exception {
-		List<Product> list= productDao.getgetProduct(prodNo);
+	public Map<String, Object> getgetProduct(String prodNo) throws Exception {
+		List<Product> list = productDao.getgetProduct(prodNo);
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("list", list );
+		map.put("list", list);
 		return map;
 	}
 
 	@Override
 	public Map<String, Object> getProductList(Search search) throws Exception {
-		List<Product> list= productDao.getProductList(search);
+		List<Product> list = productDao.getProductList(search);
 		int totalCount = productDao.getTotalCount(search);
-		
+
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("list", list );
+		map.put("list", list);
 		map.put("totalCount", new Integer(totalCount));
-		
+
 		return map;
 	}
 
 	@Override
 	public void updateProduct(Product product) throws Exception {
 		productDao.updateProduct(product);
-		
-	}
 
-	@Override
-	public void updateProductCount(int prodNo) throws Exception {
-		productDao.updateProductCount(prodNo);
-		
 	}
 
 }

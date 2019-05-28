@@ -15,6 +15,7 @@ public class Purchase {
 	private String receiverPhone;// 받는사람전화번호
 	private String tranCode;// 구매상태코드
 	private int tranNo;// 구매번호
+	private int count;
 
 	public Purchase() {
 	}
@@ -108,11 +109,22 @@ public class Purchase {
 		this.tranNo = tranNo;
 	}
 
+	
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
+	}
+
 	@Override
 	public String toString() {
-		return "PurchaseVO [buyer=" + buyer + ", divyAddr=" + divyAddr + ", divyDate=" + divyDate + ", divyRequest="
+		return "Purchase [buyer=" + buyer + ", divyAddr=" + divyAddr + ", divyDate=" + divyDate + ", divyRequest="
 				+ divyRequest + ", orderDate=" + orderDate + ", paymentOption=" + paymentOption + ", purchaseProd="
 				+ purchaseProd + ", receiverName=" + receiverName + ", receiverPhone=" + receiverPhone + ", tranCode="
-				+ tranCode + ", tranNo=" + tranNo + "]";
+				+ tranCode + ", tranNo=" + tranNo + ", count=" + count + "]";
 	}
+
+	
 }

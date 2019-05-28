@@ -30,8 +30,8 @@ public class CartDaoImpl implements CartDao {
 	}
 
 	@Override
-	public Cart getCart(int cartNo) throws Exception {
-		return sqlSession.selectOne("CartMapper.getCart", cartNo);
+	public List<Cart> getCart(String cartNo) throws Exception {
+		return sqlSession.selectList("CartMapper.getCart", cartNo);
 	}
 	
 	@Override
@@ -55,7 +55,7 @@ public class CartDaoImpl implements CartDao {
 	}
 
 	@Override
-	public void deleteCart(int cartNo) throws Exception {
+	public void deleteCart(String cartNo) throws Exception {
 		sqlSession.delete("CartMapper.deleteCart", cartNo);
 	}
 

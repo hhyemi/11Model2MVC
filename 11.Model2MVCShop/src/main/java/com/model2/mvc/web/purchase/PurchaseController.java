@@ -1,6 +1,7 @@
 package com.model2.mvc.web.purchase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +21,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.model2.mvc.common.Page;
 import com.model2.mvc.common.Search;
+import com.model2.mvc.service.cart.CartService;
+import com.model2.mvc.service.domain.Cart;
 import com.model2.mvc.service.domain.Product;
 import com.model2.mvc.service.domain.Purchase;
 import com.model2.mvc.service.domain.User;
@@ -39,6 +42,10 @@ public class PurchaseController {
 	@Autowired
 	@Qualifier("productServiceImpl")
 	private ProductService productService;
+
+	@Autowired
+	@Qualifier("cartServiceImpl")
+	private CartService cartService;
 	// setter Method 구현 않음
 
 	public PurchaseController() {
@@ -79,6 +86,36 @@ public class PurchaseController {
 
 		return "forward:/purchase/addPurchaseView.jsp";
 	}
+	
+	@RequestMapping(value = "addCartPurchase", method = RequestMethod.GET)
+	public String addCartPurchase(@RequestParam("cartNo") String cartNo, HttpSession session, Model model)
+			throws Exception {
+
+		System.out.println("/purchase/addCartPurchase : GET");
+
+		// System.out.println(prodNo);
+
+		User user = (User) session.getAttribute("user");
+
+		Map<String, Object> map = cartService.getCart(cartNo);
+
+		Purchase purchase = new Purchase();
+
+		purchase.setBuyer(user);
+		// purchase.setPurchaseProd(product);
+
+		String prodNo = null;
+		List<Cart> productList = (List<Cart>) map.get("list");
+		for (int i = 0; i < productList.size(); i++) {
+			prodNo += (","+productList.get(i).getCartProd().getProdNo());
+		}
+
+		model.addAttribute("list", map.get("list"));
+		model.addAttribute("purchase", purchase);
+		model.addAttribute("prodNo", prodNo);
+
+		return "forward:/purchase/addCartPurchaseView.jsp";
+	}
 
 	@RequestMapping(value = "addPurchase", method = RequestMethod.POST)
 	public String addPurchase(@ModelAttribute("purchase") Purchase purchase, @RequestParam("prodNo") String prodNo,
@@ -89,15 +126,19 @@ public class PurchaseController {
 		User user = (User) session.getAttribute("user");
 
 		Map<String, Object> map = productService.getgetProduct(prodNo);
-
 		List<Product> produ = (List<Product>) map.get("list");
-
 		List<Purchase> purcha = new ArrayList<>();
+
 		for (Product product : produ) {
 			purchase.setBuyer(user);
 
 			purchase.setPurchaseProd(product);
-			productService.updateProductCount(product.getProdNo());
+			// 구매수량만큼 빼주기
+			Product product2 = productService.getProduct(product.getProdNo());
+			int count = product2.getCount() - purchase.getCount();
+			product2.setCount(count);
+			productService.updateProduct(product2);
+
 			purcha.add(purchase);
 
 		}
