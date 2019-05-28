@@ -29,6 +29,35 @@
  		body {
             padding-top : 50px;
         }
+ 	    .left-box {
+		  float: left;
+		  width: 50%;
+		}
+		.right-box {
+		  float: right;
+		  width: 50%;
+		}
+		#btn-buy{
+		background: #000;
+		border:  #fff;
+		color:#fff;
+		height:50px;
+		width:500px;
+		}
+		#btn-cart{
+		background: #fff;
+        border:2px solid #000;
+		color:#000;
+		height:50px;
+		width:250px;
+		}
+		#btn-wish{
+		background: #fff;
+        border:2px solid #000;
+		color:#000;
+		height:50px;
+		width:250px;
+		}		
      </style>
     
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
@@ -40,12 +69,9 @@
 			 $( "td.ct_btn01:contains('후기보기')" ).on("click" , function() {
 				self.location="/review/listReview?prod_no=${product.prodNo}"
 			});
-			//============= "이전"  Event 처리 및  연결 =============
-			 $( "button.btn.btn-success" ).on("click" , function() {
-					history.go(-1);
-				});
+
 			//============= "구매"  Event 처리 및  연결 =============
-			 $( "button.btn.btn-primary" ).on("click" , function() {
+			 $( "#btn-buy" ).on("click" , function() {
 				 var count = ${product.count};
 				 if(count==0){
 					 alert("재고가 없어 구매할수 없습니다.")
@@ -56,14 +82,20 @@
 
 				});
 			//============= "장바구니"  Event 처리 및  연결 =============
-			 $( "button.btn.btn-warning" ).on("click" , function() {
+			 $( "#btn-cart" ).on("click" , function() {
 				 alert("장바구니에 담겼습니다. (장바구니코너에서 확인!)")
 				 self.location="/cart/addCart?prod_no=${product.prodNo}"
 			});
 			
 		});
 	
-	
+	 $(function() {
+		 $( ".spinner" ).spinner({ //스피너를 만들어준다.
+		 min: 0,   //스피너로 내릴 수 있는 최소 수
+		 max: 1000,  //스피너로 올릴 수 있는 최대 수
+		 step: 1  //한번 클릭시 증가되는 수
+		 });
+		 });	
 	</script>
 </head>
 
@@ -76,29 +108,23 @@
 	<!--  화면구성 div Start /////////////////////////////////////-->
 	<div class="container">
 	
-		<div class="page-header">
+		<div class="page-header" >
 	       <h3 class=" text-info">상품상세조회</h3>
 	       <h5 class="text-muted">선택하신  <strong class="text-danger">상품</strong>상세 조회입니다.</h5>
 	    </div>
 	
-		<div class="row">
-	  		<div class="col-xs-4 col-md-2"><strong>상품번호</strong></div>
-			<div class="col-xs-8 col-md-4">${ product.prodNo}</div>
+		<div class="left-box">
+			<div class="col-xs-8 col-md-4"><img
+					src="/images/uploadFiles/${product.fileName}" width="500px;" height="500px;" /></div>
 		</div>
+		
+		<div class="right-box">
 		
 		<hr/>
 		
 		<div class="row">
 	  		<div class="col-xs-4 col-md-2 "><strong>상품명</strong></div>
 			<div class="col-xs-8 col-md-4">${ product.prodName}</div>
-		</div>
-		
-		<hr/>
-		
-		<div class="row">
-	  		<div class="col-xs-4 col-md-2 "><strong>상품이미지</strong></div>
-			<div class="col-xs-8 col-md-4"><img
-					src="/images/uploadFiles/${product.fileName}" width="300px;" height="300px;" /></div>
 		</div>
 		
 		<hr/>
@@ -119,34 +145,31 @@
 		
 		<div class="row">
 	  		<div class="col-xs-4 col-md-2 "><strong>가격</strong></div>
-			<div class="col-xs-8 col-md-4">${product.price}</div>
+			<div class="col-xs-8 col-md-4">${product.price} won</div>
 		</div>
 		
 		<hr/>
-
+		
 		<div class="row">
-	  		<div class="col-xs-4 col-md-2 "><strong>재고</strong></div>
-			<div class="col-xs-8 col-md-4">${product.count}</div>
+	  		<div class="col-xs-4 col-md-2 "><strong>수량</strong></div>
+			<div class="col-xs-8 col-md-4"><input class="spinner" name="count" value="1"></div>
 		</div>
-
+		
 		<hr/>
-			
+				
 		<div class="row">
-	  		<div class="col-xs-4 col-md-2 "><strong>등록일자</strong></div>
-			<div class="col-xs-8 col-md-4">${product.regDate}</div>
-		</div>	
-			
+	  			<button type="button" id="btn-buy">BUY IT NOW</button>
+		</div>		
+		
+		<br/>
+				
+		<div class="row">
+	  			<button type="button" id="btn-cart">ADD TO CART</button>
+	  			<button type="button" id="btn-wish">WISH LIST</button>
+		</div>		
 		<hr/>
-	 	
-		<div class="row">
-			 <div class="col-md-2 text-center">
-	  			<button type="button" class="btn btn-success">PREVIOUS</button>		
-	  		</div> 		
-	  		<div class="col-md-10 text-center">
-	  			<button type="button" class="btn btn-primary">BUY NOW</button>
-	  			<button type="button" class="btn btn-warning">ADD TO CART</button>
-	  		</div> 		
-	 	</div>
+		
+		</div>
 		
 		<br/>
 		

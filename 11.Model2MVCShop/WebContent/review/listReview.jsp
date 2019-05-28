@@ -48,7 +48,8 @@
 
 function fncGetList(currentPage) {
    	$("#currentPage").val(currentPage)
-   	$("form").attr("method" , "POST").attr("action" , "/review/listReview?prod_no="+$("#prodNo").val()).submit();
+   	//$("form").attr("method" , "POST").attr("action" , "/review/listReview?prod_no="+$("#prodNo").val()).submit();
+	$("form").attr("method" , "POST").attr("action" , "/product/getProduct?prodNo="+$("#prodNo").val()+"&menu=${param.menu}").submit();
 
 }
 	

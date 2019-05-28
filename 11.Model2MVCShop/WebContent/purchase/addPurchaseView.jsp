@@ -139,10 +139,6 @@
 	    }	
 	
 	 $(function() {
-		 $( ".spinner" ).spinner(); //스피너를 만들어준다.
-		 });
-	
-	 $(function() {
 		 $( ".spinner" ).spinner({ //스피너를 만들어준다.
 		 min: 0,   //스피너로 내릴 수 있는 최소 수
 		 max: 1000,  //스피너로 올릴 수 있는 최대 수
