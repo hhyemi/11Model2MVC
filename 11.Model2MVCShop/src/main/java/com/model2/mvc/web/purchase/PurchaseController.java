@@ -64,7 +64,7 @@ public class PurchaseController {
 	int pageSize;
 
 	@RequestMapping(value = "addPurchase", method = RequestMethod.GET)
-	public String addPurchase(@RequestParam("prod_no") String prodNo, HttpSession session, Model model)
+	public String addPurchase(@RequestParam("prod_no") String prodNo,@RequestParam("prodCount") int prodCount, HttpSession session, Model model)
 			throws Exception {
 
 		System.out.println("/purchase/addPurchase : GET");
@@ -76,6 +76,7 @@ public class PurchaseController {
 		Map<String, Object> map = productService.getgetProduct(prodNo);
 
 		Purchase purchase = new Purchase();
+		purchase.setCount(prodCount);
 
 		purchase.setBuyer(user);
 		// purchase.setPurchaseProd(product);

@@ -138,13 +138,6 @@
 	        }).open();
 	    }	
 	
-	 $(function() {
-		 $( ".spinner" ).spinner({ //스피너를 만들어준다.
-		 min: 0,   //스피너로 내릴 수 있는 최소 수
-		 max: 1000,  //스피너로 올릴 수 있는 최대 수
-		 step: 1  //한번 클릭시 증가되는 수
-		 });
-		 });
 	
 	</script>
 </head>
@@ -194,8 +187,8 @@
 					</c:if>			  
 			  </td>			  
 			  <td align="left">${product.prodDetail}</td>		
-			  <td align="left"><input class="spinner" name="count" value="1"></td>						 		  
-			  <td align="left">${product.price}</td>
+			  <td align="left">${purchase.count }</td>					 		  
+			  <td align="left">${product.price * purchase.count } won</td>
 			</tr>
           </c:forEach>
         
@@ -209,7 +202,7 @@
  	<!--  화면구성 div End /////////////////////////////////////-->
  	
   <div class="form-group">
-  
+ <input type="hidden" name="count" value="${purchase.count }" />	
   <input type="hidden" name="prodNo" value="${prodNo }" />
 		    <label for="userId" class="col-sm-offset-1 col-sm-3 control-label">구매자아이디</label>
 		    <div class="col-sm-4">

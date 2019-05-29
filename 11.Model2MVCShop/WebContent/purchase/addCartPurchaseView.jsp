@@ -138,14 +138,6 @@
 	        }).open();
 	    }	
 	
-	 $(function() {
-		 $( ".spinner" ).spinner({ //스피너를 만들어준다.
-		 min: 0,   //스피너로 내릴 수 있는 최소 수
-		 max: 1000,  //스피너로 올릴 수 있는 최대 수
-		 step: 1  //한번 클릭시 증가되는 수
-		 });
-		 });
-	
 	</script>
 </head>
 
@@ -181,6 +173,7 @@
 		  <c:set var="i" value="0" />
 		  <c:forEach var="cart" items="${list}">
 			<c:set var="i" value="${ i+1 }" />
+			   <input type="hidden" name="count" value="${cart.cartCount}" />	
 			<tr>		
 			  <td align="center">${ i }</td>
 			  <td align="left"  title="Click : 상품정보 확인">${cart.cartProd.prodName}		  
@@ -189,13 +182,14 @@
 					<c:if test="${ empty cart.cartProd.fileName }">
 						 <img src="/images/uploadFiles/no_image.gif" width="100px;" height="100px;"/>						    
 					 </c:if>
-					<c:if test="${ !empty cart.cartProd.fileName}">						    
+					<c:if test="${ !(empty cart.cartProd.fileName)}">						    
 						      <img src="/images/uploadFiles/${cart.cartProd.fileName}"  width="100px;" height="100px;"/>
 					</c:if>			  
 			  </td>			  
-			  <td align="left">${cart.cartProd.prodDetail}</td>		
-			  <td align="left"><input class="spinner" name="count" value="${cart.cartCount}"></td>						 		  
-			  <td align="left">${cart.cartProd.price}</td>
+			  <td align="left">${cart.cartProd. prodDetail}</td>		
+			  <td align="left">${cart.cartCount }</td>					 		  
+			  <td align="left">${cart.cartProd.price * cart.cartCount } won</td> 
+			  
 			</tr>
            </c:forEach>       
         </tbody> 
@@ -208,7 +202,7 @@
  	<!--  화면구성 div End /////////////////////////////////////-->
  	
   <div class="form-group">
-  
+
   <input type="hidden" name="prodNo" value="${prodNo }" />
 		    <label for="userId" class="col-sm-offset-1 col-sm-3 control-label">구매자아이디</label>
 		    <div class="col-sm-4">

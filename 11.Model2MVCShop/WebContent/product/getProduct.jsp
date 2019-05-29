@@ -38,7 +38,7 @@
 		  width: 50%;
 		}
 		#btn-buy{
-		background: #000;
+		background: #38393A;
 		border:  #fff;
 		color:#fff;
 		height:50px;
@@ -46,14 +46,14 @@
 		}
 		#btn-cart{
 		background: #fff;
-        border:2px solid #000;
+        border:2px solid #38393A;
 		color:#000;
 		height:50px;
 		width:250px;
 		}
 		#btn-wish{
 		background: #fff;
-        border:2px solid #000;
+        border:2px solid #38393A;
 		color:#000;
 		height:50px;
 		width:250px;
@@ -77,7 +77,8 @@
 					 alert("재고가 없어 구매할수 없습니다.")
 					 return;
 				 }else{
-					self.location="/purchase/addPurchase?prod_no=${product.prodNo}"
+					// alert($(".spinner").val());
+					self.location="/purchase/addPurchase?prod_no=${product.prodNo}&prodCount="+$(".spinner").val()
 				 } 
 
 				});
@@ -90,12 +91,35 @@
 		});
 	
 	 $(function() {
+		 
+ 		if(${product.count}==0){
 		 $( ".spinner" ).spinner({ //스피너를 만들어준다.
-		 min: 0,   //스피너로 내릴 수 있는 최소 수
-		 max: 1000,  //스피너로 올릴 수 있는 최대 수
-		 step: 1  //한번 클릭시 증가되는 수
+			 min: 0,//스피너로 내릴 수 있는 최소 수
+			 max: ${product.count} ,  //스피너로 올릴 수 있는 최대 수
+			 step: 1  //한번 클릭시 증가되는 수
 		 });
-		 });	
+		}else{
+			 $( ".spinner" ).spinner({ //스피너를 만들어준다.
+				 min: 1,//스피너로 내릴 수 있는 최소 수
+				 max: ${product.count} ,  //스피너로 올릴 수 있는 최대 수
+				 step: 1  //한번 클릭시 증가되는 수
+			 });			
+		} 
+		 
+		 $(".spinner").spinner({
+			    stop: function (event, ui) {
+			    	//alert(parseInt($(this).val()))
+			    	//alert(${product.count})
+			    	if(${product.count} <= parseInt($(this).val())){
+			    		alert(${product.count}+"개 이상 구매할수 없습니다.(재고부족)")
+			    		return;
+			    	}
+			    	$('#prodCount').html(parseInt($(this).val())*${product.price}+" won");
+			    }
+			});	 
+
+
+	 });
 	</script>
 </head>
 
@@ -152,11 +176,17 @@
 		
 		<div class="row">
 	  		<div class="col-xs-4 col-md-2 "><strong>수량</strong></div>
-			<div class="col-xs-8 col-md-4"><input class="spinner" name="count" value="1"></div>
+			<div class="col-xs-8 col-md-4"><input class="spinner" name="count" value="${product.count eq 0 ? 0 : 1}"></div>
 		</div>
 		
 		<hr/>
-				
+		
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2 "><p>TOTAL</p></div>
+			<div class="col-xs-8 col-md-4"><span id="prodCount">${product.price} won</span></div>
+		</div>
+		
+		<hr/>				
 		<div class="row">
 	  			<button type="button" id="btn-buy">BUY IT NOW</button>
 		</div>		

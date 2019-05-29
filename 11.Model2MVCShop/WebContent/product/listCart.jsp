@@ -41,7 +41,35 @@
         	width : 350px;
         	height : 550px;
         }
-
+		.btn-delete{
+		background: #fff;
+        border:1px solid #b9babb;
+		margin:3px;
+		padding:3px;
+        width : 100px;
+		}    
+		.btn-delete22{
+		background: #fff;
+        border:1px solid #b9babb;
+		margin:3px;
+		padding:3px;
+        width : 100px;
+		}   		
+		.btn-wish{
+		background: #fff;
+        border:1px solid #b9babb;       
+		margin:3px;
+		padding:3px;
+        width : 100px;
+		} 		    
+		.btn-buy{
+		background: #38393A;
+		border:  #fff;
+		color:#fff;
+		margin:3px;
+		padding:3px;
+        width : 100px;		
+		}
     </style>
     
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
@@ -60,7 +88,7 @@ function fncGetList(currentPage) {
 $(function(){
 
 		
-		$( " td:nth-child(8):contains('품절')" ).css("color" , "red");
+		$( " td:nth-child(6):contains('품절')" ).css("color" , "red");
 
 		$(".ct_list_pop:nth-child(4n+6)" ).css("background-color" , "whitesmoke");
 		
@@ -69,13 +97,13 @@ $(function(){
 			self.location ="/product/getProduct?prodNo="+$(this).children("input").val()+"&menu=${param.menu}";
 		});
   		//============= "버튼으로 삭제"  Event 처리 및  연결 =============
-		 $( "button.btn.btn-danger" ).on("click" , function() {
-			 self.location ="/cart/deleteCart?cartNo="+$("#cartNo").val();
-		 });
-			 
+		 $( ".btn-delete" ).on("click" , function() {
+			//alert($(this).parent().parent().children("input").val())
+			self.location ="/cart/deleteCart?cartNo="+$(this).parent().parent().children("input").val();
+		 });		 
 	
 		//============= "체크해서 삭제"  Event 처리 및  연결 =============
-		 $( "button.btn.btn-success" ).on("click" , function() {
+		 $( ".btn-delete22" ).on("click" , function() {
 			 var checkArray2 = [];
 			 $("input[name=productCheck]:checked").each(function() { 
 				 var check2 = $(this).val();
@@ -87,7 +115,7 @@ $(function(){
 			 
 		});
   		//============= "구매"  Event 처리 및  연결 =============
-		 $( "button.btn.btn-primary" ).on("click" , function() { 
+		 $( ".btn-buy" ).on("click" , function() { 
 			 	var checkArray = [];
 				$("input[name=productCheck]:checked").each(function() {
 					
@@ -158,15 +186,13 @@ $(function(){
         <thead>
           <tr>
           	<th align="right"><input type="checkbox" id="allCheck" ></th>
-            <th align="center">No</th>
-            <th align="left" >상품명</th>
-            <th align="left" >상품이미지</th>
-            <th align="left">가격</th>
-            <th align="left">재고현황</th>
-			<th align="left">상품상세정보</th>
-            <th align="left">현재상태</th> 
-			<th align="left">담은 개수</th>   
-			<th align="left">선택</th>        			
+            <th align="left">No</th>
+            <th align="left" >PRODUCT</th>
+            <th align="left" >IMAGE</th>
+            <th align="left">PRICE</th>
+            <th align="left">STATE</th> 
+			<th align="left">QTY</th>   
+			<th align="center">CHOICE</th>        			
           </tr>
         </thead>
        
@@ -183,7 +209,7 @@ $(function(){
 			  <input type="checkbox" name="productCheck" value="${cart.cartNo}" >		
 			  </c:if>  			  
 			  </td>
-			  <td align="center">${ i }</td>
+			  <td align="left">${ i }</td>
 			  <td align="left"  title="Click : 상품정보 확인"><strong class="text-secondary">${cart.cartProd.prodName}</strong></td>	
 			  <td align="left" >
 			  <input type="hidden" name="prodNo" value="${cart.cartProd.prodNo}" />
@@ -191,12 +217,10 @@ $(function(){
 				 <img src="/images/uploadFiles/no_image.gif"/>						    
 			</c:if>
 			 <c:if test="${ !empty cart.cartProd.fileName}">						    
-				<img src="/images/uploadFiles/${cart.cartProd.fileName}" width="200px;" height="200px;"/>
+				<img src="/images/uploadFiles/${cart.cartProd.fileName}" width="150px;" height="150px;"/>
 			 </c:if>
 			  </td>			  	  
 			  <td align="left">${cart.cartProd.price}</td>
-			  <td align="left">${cart.cartProd.count}</td>	
-			  <td align="left">${cart.cartProd.prodDetail}</td>		
 			  <td align="left">
 				<c:if test="${cart.cartProd.count eq 0 }">
 						품절 
@@ -207,8 +231,10 @@ $(function(){
 			</td>				  
 			  
 			  <td align="left"> ${cart.cartCount} </td>
-			  <td align="left"><button type="button" class="btn btn-danger">DELETE</button>
-			  <input type="hidden" id="cartNo" value="${cart.cartNo}" />
+			  <td align="left">
+			  <input type="hidden" value="${cart.cartNo}" />
+			  <div><button type="button" class="btn-wish">WHISLIST</button></div>			  
+			  <div><button type="button" class="btn-delete">DELETE</button></div>
 			  </td> 
 			</tr>
           </c:forEach>
@@ -220,10 +246,10 @@ $(function(){
 	  
 		<div class="row">
 			 <div class="col-md-2 text-center">
-	  			<button type="button" class="btn btn-success">DELETE</button>		
+	  			<button type="button" class="btn-delete22">DELETE</button>		
 	  		</div> 		
 	  		<div class="col-md-10 text-center">
-	  			<button type="button" class="btn btn-primary">BUY NOW</button>
+	  			<button type="button" class="btn-buy">BUY NOW</button>
 	  		</div> 		
 	 	</div>
 	  

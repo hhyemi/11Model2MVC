@@ -77,6 +77,7 @@
              <th align="left" >상품이미지</th>
 			<th align="left">상품상세정보</th>  
 			<th align="left">구매수량</th>  
+			<th align="left">합계</th>  
           </tr>
         </thead>
        
@@ -97,7 +98,8 @@
 					</c:if>			  
 			  </td>			  
 			  <td align="left">${product.prodDetail}</td>						 	
-			  <td align="left">${purchase.count}</td>			  
+			  <td align="left">${purchase.count}</td>	
+			  <td align="left">${product.price * purchase.count } won</td>		  
 			</tr>
           </c:forEach>
         

@@ -37,10 +37,22 @@
 	  body {
             padding-top : 50px;
         }
-        .thumbnail{
-        	width : 270px;
-        	height: 450px;
-        }
+	.thumbnail-wrappper { width: 25%; } 
+	.thumbnail { position: relative; padding-top: 100%; /* 1:1 ratio */ overflow: hidden; } 
+	.thumbnail .centered { position: absolute; top: 0; left: 0; right: 0; bottom: 0; -webkit-transform: translate(50%,50%); -ms-transform: translate(50%,50%); transform: translate(50%,50%); } 
+	.thumbnail .centered img { position: absolute; top: 0; left: 0; max-width: 100%; height: auto; -webkit-transform: translate(-50%,-50%); -ms-transform: translate(-50%,-50%); transform: translate(-50%,-50%); }
+	
+	.soldout{
+		background-color: #ca273c;
+		color:white;
+		margin: 8px;
+	}
+	.good{
+	    background-color: #9a9192;;
+		color:white;
+		margin: 8px;	    
+	}
+
 
     </style>
     
@@ -244,39 +256,48 @@
  	
 	<hr/>
 	
-	
-	
 				<div class="row">
 				 	 <c:set var="i" value="0" />
 				 	 <c:forEach var="product" items="${list}">
-						  <div class="col-sm-4 col-md-3" >
-							<c:set var="i" value="${ i+1 }" />					
+						  <div class="col-sm-4 col-md-3 text-center" >
+							<c:set var="i" value="${ i+1 }" />	
+							<br/>				
 						    <a href="#" class="thumbnail" >
+
 						    <input type="hidden" value="${product.prodNo }" />
 						    <c:if test="${ empty product.fileName }">
-						      <img src="/images/uploadFiles/no_image.gif"/>						    
+						    <div class="centered">
+						      <img src="/images/uploadFiles/no_image.gif" />						    
+						     </div>
 						    </c:if>
-						    <c:if test="${ !empty product.fileName}">						    
-						      <img src="/images/uploadFiles/${product.fileName}"  width="300px;" height="300px;"/>
+						    <c:if test="${ !empty product.fileName}">	
+						     <div class="centered">					    
+						      <img src="/images/uploadFiles/${product.fileName}" />
+						      </div>
 						     </c:if>
-						      <div class="caption">
-						        <h3 class="bg-info">${product.prodName}</h3>
-						        <hr/>
-						        <strong class="text-muted">${product.price} won</strong>
+							</a>
+						        <strong>${product.prodName}</strong>
 						        <br/>
-						        <strong class="text-primary">${product.prodDetail}</strong>
+						        <p class="text-muted">${product.prodDetail}</p>
+						        <strong >${product.price} won</strong>
 						         <br/>
 						         
 							<c:set var="code" value="${fn:substring(product.proTranCode,0,1)}"/>
-
+							<div class="col-sm-4 " >
+							</div>
+ 							<div class="col-sm-4 " >
 								<c:if test = "${product.count eq 0}">
-									<h4 class="text-danger">★★★품절★★★ </h4>
+									<p class="soldout" >품절</p>
+								</c:if>	
+								<c:if test = "${!(product.count eq 0)}">
+									<p class="good" >추천</p>
 								</c:if>
-
-						
-						      </div>
-						</a>
+							<c:if test = "${param.menu eq 'manage'}">	
+							<p>재고 : ${product.count }</p>
+							</c:if>									
+							</div>				
 					</div>
+					
 			 		</c:forEach>         	
 					</div>	  
  	</div>
