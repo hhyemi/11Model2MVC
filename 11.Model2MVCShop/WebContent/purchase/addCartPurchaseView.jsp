@@ -53,7 +53,7 @@
 			alert("배송희망날짜는 반드시 입력하여야 합니다.");
 			return;
 		}
-		$("form").attr("method","POST").attr("action","/purchase/addPurchase").submit();
+		$("form").attr("method","POST").attr("action","/purchase/addCartPurchase").submit();
 	}
 	
 	$(function(){	
@@ -173,7 +173,7 @@
 		  <c:set var="i" value="0" />
 		  <c:forEach var="cart" items="${list}">
 			<c:set var="i" value="${ i+1 }" />
-			   <input type="hidden" name="count" value="${cart.cartCount}" />	
+			   <input type="hidden" name="cartCount" value="${cart.cartCount}" />	
 			<tr>		
 			  <td align="center">${ i }</td>
 			  <td align="left"  title="Click : 상품정보 확인">${cart.cartProd.prodName}		  
