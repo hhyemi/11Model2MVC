@@ -176,7 +176,8 @@ $(function(){
             <th align="left" >후기제목</th>
             <th align="left">선호도</th>
             <th align="left">구매자아이디</th> 
-			<th align="left">수정하기</th>         			
+			<th align="left">수정하기</th>
+			<th align="left">등록일</th>             			
           </tr>
         </thead>
        
@@ -211,7 +212,8 @@ $(function(){
 			  <td align="left">			  
 			  	<i class="glyphicon glyphicon-pencil">
 				<input type="hidden" value="${review.reviewNo }" /></i>
-			  </td>					 
+			  </td>		
+			  <td align="left">${review.regDate}</td>				 
 			</tr>
 		<input type="hidden" id="prodNo" name="prodNo" value="${review.reviewProd.prodNo}"/>
           </c:forEach>

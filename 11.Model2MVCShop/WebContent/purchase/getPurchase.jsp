@@ -76,20 +76,33 @@
 	    </div>
 	
 		<div class="row">
-	  		<div class="col-xs-4 col-md-2"><strong>물품번호</strong></div>
-			<div class="col-xs-8 col-md-4">${purchase.purchaseProd.prodNo}</div>
+	  		<div class="col-xs-4 col-md-2"><strong>물품명</strong></div>
+			<div class="col-xs-8 col-md-4">${purchase.purchaseProd.prodName}</div>
+		</div>
+		
+		<hr/>
+		
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2"><strong>물품이미지</strong></div>
+			<div class="col-xs-8 col-md-4"> <img src="/images/uploadFiles/${purchase.purchaseProd.fileName}" width="130px;" height="130px;"/></div>
 		</div>
 		
 		<hr/>
 		
 		<div class="row">
 	  		<div class="col-xs-4 col-md-2"><strong>구매수량</strong></div>
-			<div class="col-xs-8 col-md-4">${purchase.count}</div>
+			<div class="col-xs-8 col-md-4">${purchase.count}개</div>
 		</div>
 		
 		<hr/>
 		
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2"><strong>구매합계</strong></div>
+			<div class="col-xs-8 col-md-4">${purchase.purchaseProd.price * purchase.count}원</div>
+		</div>
 		
+		<hr/>		
+
 		<div class="row">
 	  		<div class="col-xs-4 col-md-2 "><strong>구매자아이디</strong></div>
 			<div class="col-xs-8 col-md-4">${purchase.buyer.userId}</div>

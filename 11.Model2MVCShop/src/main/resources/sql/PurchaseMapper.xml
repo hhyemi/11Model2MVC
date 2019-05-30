@@ -9,15 +9,15 @@
 	<resultMap id="purchaseSelectMap" type="purchase">
 
 		<result property="tranNo" column="TRAN_NO" jdbcType="INTEGER" />
-		<result property="purchaseProd.prodNo" column="PROD_NO"
-			jdbcType="INTEGER" />
+		<result property="purchaseProd.prodNo" column="PROD_NO" jdbcType="INTEGER" />
+		<result property="purchaseProd.prodName" column="PROD_NAME" jdbcType="VARCHAR" />
+		<result property="purchaseProd.prodDetail" column="PROD_DETAIL" jdbcType="VARCHAR" />
+		<result property="purchaseProd.price" column="PRICE" jdbcType="INTEGER" />
+		<result property="purchaseProd.fileName" column="IMAGE_FILE" jdbcType="VARCHAR" />		
 		<result property="buyer.userId" column="BUYER_ID" jdbcType="VARCHAR" />
-		<result property="paymentOption" column="PAYMENT_OPTION"
-			jdbcType="CHAR" />
-		<result property="receiverName" column="RECEIVER_NAME"
-			jdbcType="VARCHAR" />
-		<result property="receiverPhone" column="RECEIVER_PHONE"
-			jdbcType="VARCHAR" />
+		<result property="paymentOption" column="PAYMENT_OPTION" jdbcType="CHAR" />
+		<result property="receiverName" column="RECEIVER_NAME" jdbcType="VARCHAR" />
+		<result property="receiverPhone" column="RECEIVER_PHONE" jdbcType="VARCHAR" />
 		<result property="divyAddr" column="DEMAILADDR" jdbcType="VARCHAR" />
 		<result property="divyRequest" column="DLVY_REQUEST" jdbcType="VARCHAR" />
 		<result property="tranCode" column="TRAN_STATUS_CODE" jdbcType="CHAR" />
@@ -49,12 +49,12 @@
 	<!-- SQL : SELECT ONE -->
 	<select id="getPurchase" parameterType="string" resultMap="purchaseSelectMap">
 		SELECT
-		TRAN_NO , PROD_NO , BUYER_ID , PAYMENT_OPTION , RECEIVER_NAME,
-		RECEIVER_PHONE, DEMAILADDR, DLVY_REQUEST,
-		TRAN_STATUS_CODE,ORDER_DATA,DLVY_DATE,COUNT
-		FROM transaction
-		WHERE TRAN_NO =
-		#{value}
+		t.TRAN_NO , t.PROD_NO , t.BUYER_ID , t.PAYMENT_OPTION , t.RECEIVER_NAME,
+		t.RECEIVER_PHONE, t.DEMAILADDR, t.DLVY_REQUEST,
+		t.TRAN_STATUS_CODE,t.ORDER_DATA,t.DLVY_DATE,t.COUNT,p.PROD_NAME,p.IMAGE_FILE,p.PRICE
+		FROM transaction t,product p
+		WHERE TRAN_NO =	#{value} 
+		AND t.PROD_NO in p.PROD_NO
 	</select>
 
 	<!-- SQL : SELECT ONE -->
@@ -106,32 +106,33 @@
 		FROM ( SELECT inner_table.* , ROWNUM AS row_seq
 		FROM (
 		SELECT
-		TRAN_NO , PROD_NO , BUYER_ID , PAYMENT_OPTION , RECEIVER_NAME,
-		RECEIVER_PHONE, DEMAILADDR, DLVY_REQUEST,
-		TRAN_STATUS_CODE,ORDER_DATA,DLVY_DATE,COUNT
-		FROM transaction
+		t.TRAN_NO , t.PROD_NO , t.BUYER_ID , t.PAYMENT_OPTION , t.RECEIVER_NAME,
+		t.RECEIVER_PHONE, t.DEMAILADDR, t.DLVY_REQUEST,
+		t.TRAN_STATUS_CODE,t.ORDER_DATA,t.DLVY_DATE,t.COUNT,p.PROD_NAME ,p.IMAGE_FILE,p.PRICE
+		FROM transaction t , product p
 		<where>
 			<if test="buyerId != null ">
-			 buyer_id =
+			 t.buyer_id =
 			#{buyerId}
 			</if>
 		
 			<if test="shippingCondition != null">
 			
 			<if test="shippingCondition == 0 and shippingCondition !='' ">
-						AND TRAN_STATUS_CODE is NULL 
+						AND t.TRAN_STATUS_CODE is NULL 
 			</if>
 			<if test="shippingCondition == 1 and shippingCondition !='' ">
-						AND TRAN_STATUS_CODE in (#{shippingCondition},1) 
+						AND t.TRAN_STATUS_CODE in (#{shippingCondition},1) 
 			</if>
 			<if test="shippingCondition == 2 and shippingCondition !='' ">
-						AND TRAN_STATUS_CODE in (#{shippingCondition},2) 
+						AND t.TRAN_STATUS_CODE in (#{shippingCondition},2) 
 			</if>
 			<if test="shippingCondition == 3 and shippingCondition !='' ">
-						AND TRAN_STATUS_CODE in (#{shippingCondition},3) 
+						AND t.TRAN_STATUS_CODE in (#{shippingCondition},3) 
 			</if>
 			
 			</if>	
+			AND t.prod_no in p.prod_no
 			
 		</where>
 

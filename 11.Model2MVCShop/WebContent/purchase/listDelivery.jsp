@@ -175,7 +175,7 @@
             <th align="center">No</th>
             <th align="left" >회원ID</th>
             <th align="left">구매자이름</th>
-            <th align="left">구매자번호</th>
+            <th align="left">상품이미지</th>
 			<th align="left">배송현황</th>
             <th align="left">현재상태
 			</th> 
@@ -192,7 +192,7 @@
 			  <td align="center">${ i }</td>
 			  <td align="left"  title="Click : 회원정보 확인">${purchase.buyer.userId} 		  
 			  <td align="left">${purchase.receiverName}</td>
-			  <td align="left">${purchase.receiverPhone}</td>	
+			  <td align="left"><img src="/images/uploadFiles/${purchase.purchaseProd.fileName}" width="100px;" height="100px;"/></td>	
 			  <td align="left">
 			  	<input type="hidden" name="tranNo" value="${purchase.tranNo}" />
 				<c:set var="code" value="${fn:substring(purchase.tranCode,0,1)}"/>

@@ -14,24 +14,25 @@
 		<result property="fileName" column="IMAGE_FILE" jdbcType="VARCHAR" />
 		<result property="reviewText" column="REVIEW_TEXT" jdbcType="VARCHAR" />
 		<result property="evaluation" column="EVALUATION " jdbcType="VARCHAR" />
-		<result property="password" column="PASSWORD " jdbcType="VARCHAR" />
-		<result property="title" column="TITLE " jdbcType="VARCHAR" />
+		<result property="password" column="PASSWORD" jdbcType="VARCHAR" />
+		<result property="title" column="TITLE" jdbcType="VARCHAR" />
+		<result property="regDate" column="REG_DATE" jdbcType="DATE" />		
 	</resultMap>
 
 	<!-- SQL : INSERT -->
 	<insert id="addReview" parameterType="review">
 		INSERT
 		INTO review(
-		REVIEW_NO , USER_ID , PROD_NO , IMAGE_FILE , REVIEW_TEXT,EVALUATION,PASSWORD,TITLE)
+		REVIEW_NO , USER_ID , PROD_NO , IMAGE_FILE , REVIEW_TEXT,EVALUATION,PASSWORD,TITLE,REG_DATE)
 		VALUES (SEQ_REVIEW_REVIEW_NO.NEXTVAL ,
 		#{buyer.userId:VARCHAR} , #{reviewProd.prodNo:INTEGER}  ,#{fileName:VARCHAR} ,
-		#{reviewText:VARCHAR} , #{evaluation:VARCHAR},#{password:VARCHAR},#{title:VARCHAR}  )
+		#{reviewText:VARCHAR} , #{evaluation:VARCHAR},#{password:VARCHAR},#{title:VARCHAR},SYSDATE )
 	</insert>
 
 	<!-- SQL : SELECT ONE -->
 	<select id="getReview" parameterType="string" resultMap="reviewSelectMap">
 		SELECT
-		REVIEW_NO , USER_ID , PROD_NO , IMAGE_FILE , REVIEW_TEXT,EVALUATION,TITLE
+		REVIEW_NO , USER_ID , PROD_NO , IMAGE_FILE , REVIEW_TEXT,EVALUATION,TITLE,REG_DATE
 		FROM review
 		WHERE REVIEW_NO = #{value}
 	</select>
@@ -50,7 +51,7 @@
 	
 		<!-- SQL : pwcheck SELECT -->
 	<select id="pwCheckReview" parameterType="review" resultMap="reviewSelectMap">
-		select REVIEW_NO , USER_ID , PROD_NO , IMAGE_FILE , REVIEW_TEXT,EVALUATION,PASSWORD,TITLE
+		select REVIEW_NO , USER_ID , PROD_NO , IMAGE_FILE , REVIEW_TEXT,EVALUATION,PASSWORD,TITLE,REG_DATE
 		FROM review
 		<where>
 			REVIEW_NO = #{reviewNo} AND
@@ -63,7 +64,7 @@
 		SELECT *
 		FROM ( SELECT inner_table.* , ROWNUM AS row_seq
 		FROM (	SELECT
-		REVIEW_NO , USER_ID , PROD_NO , IMAGE_FILE , REVIEW_TEXT,EVALUATION,TITLE
+		REVIEW_NO , USER_ID , PROD_NO , IMAGE_FILE , REVIEW_TEXT,EVALUATION,TITLE,REG_DATE
 		FROM review
 		<where>
 			<if test="prodNo != null ">
@@ -82,7 +83,7 @@
 	<select id="getTotalCount" parameterType="cart" resultType="int">
 		SELECT COUNT(*)
 		FROM( SELECT
-		REVIEW_NO , USER_ID , PROD_NO , IMAGE_FILE , REVIEW_TEXT,EVALUATION,TITLE
+		REVIEW_NO , USER_ID , PROD_NO , IMAGE_FILE , REVIEW_TEXT,EVALUATION,TITLE,REG_DATE
 		FROM review
 		<where>
 			<if test="prodNo != null ">

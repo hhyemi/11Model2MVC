@@ -1,5 +1,7 @@
 package com.model2.mvc.service.domain;
 
+import java.sql.Date;
+
 public class Review {
 
 	private int reviewNo;
@@ -10,7 +12,8 @@ public class Review {
 	private String evaluation;
 	private String password;
 	private String title;
-
+	private Date regDate;
+	
 	public Review() {
 	}
 
@@ -79,15 +82,23 @@ public class Review {
 	public void setTitle(String title) {
 		this.title = title;
 	}
+	
+
+	public Date getRegDate() {
+		return regDate;
+	}
+
+	public void setRegDate(Date regDate) {
+		this.regDate = regDate;
+	}
 
 	@Override
 	public String toString() {
 		return "Review [reviewNo=" + reviewNo + ", buyer=" + buyer + ", reviewProd=" + reviewProd + ", fileName="
 				+ fileName + ", reviewText=" + reviewText + ", evaluation=" + evaluation + ", password=" + password
-				+ ", title=" + title + "]";
+				+ ", title=" + title + ", regDate=" + regDate + "]";
 	}
 
-	
 
 	
 

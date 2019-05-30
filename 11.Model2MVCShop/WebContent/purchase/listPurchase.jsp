@@ -53,11 +53,10 @@
 		$(".ct_list_pop:nth-child(4n+6)" ).css("background-color" , "whitesmoke");
 
 		
-		//============= userId 에 회원정보보기  Event  처리(Click) =============
+		//============= 상품정보보기  Event  처리(Click) =============
 		$( "td:nth-child(3)" ).on("click" , function() {
-			 self.location ="/user/getUser?userId="+$(this).text().trim();	
-		});
-		$( "td:nth-child(3)" ).css("color" , "blue");		
+			self.location ="/product/getProduct?prodNo="+$(this).children("input").val()+"&menu=${param.menu}";
+		});	
 		
 		//============= 배송정보보기  Event  처리(Click) =============		
 		$( "td:nth-child(6)" ).on("click" , function() {
@@ -88,7 +87,7 @@
 		$( "td:nth-child(7)" ).css("color" , "purple");	
 		
 		//============= 간략히보기  Event  처리(Click) =============		
-		 $( " td:nth-child(8)" ).on("click" , function() {
+		 $( " td:nth-child(9)" ).on("click" , function() {
 			 var tranNo = $(this).children("input").val();
 			// alert(tranNo)
 				$.ajax( 
@@ -182,13 +181,13 @@
         <thead>
           <tr>
             <th align="center">No</th>   
-            <th align="left" >주문일</th>    
-            <th align="left" >회원ID</th>
-            <th align="left">구매자이름</th>
-            <th align="left">구매자번호</th>
+            <th align="left" >상품명</th>
+            <th align="left" >상품이미지</th>
+            <th align="left">구매수량</th>
+            <th align="left">결제금액</th>
 			<th align="left">배송현황</th>
             <th align="left">정보수정
-			</th> 
+            <th align="left" >주문일</th>    
 			<th align="left">간략정보</th>         			
           </tr>
         </thead>
@@ -200,10 +199,12 @@
 			<tr>
 			
 			  <td align="center">${ i }</td>
-			  <td align="left">${ purchase.orderDate }</td>
-			  <td align="left"  title="Click : 회원정보 확인">${purchase.buyer.userId} 		  
-			  <td align="left">${purchase.receiverName}</td>
-			  <td align="left">${purchase.receiverPhone}</td>	
+			  <td align="left" >${purchase.purchaseProd.prodName}</td>
+			  <td align="left" title="Click :  상품정보 확인">
+			   <input type="hidden" name="prodNo" value="${purchase.purchaseProd.prodNo}" />
+			  <img src="/images/uploadFiles/${purchase.purchaseProd.fileName}" width="100px;" height="100px;"/></td>  
+			  <td align="left">${purchase.count}개</td>
+			  <td align="left">${purchase.purchaseProd.price * purchase.count}원</td>	
 			  <td align="left">
 			  	<input type="hidden" name="tranNo" value="${purchase.tranNo}" />
 				<c:set var="code" value="${fn:substring(purchase.tranCode,0,1)}"/>
@@ -237,7 +238,7 @@
 				</c:if>			
 						
 			</td>				  
-			  
+			   <td align="left">${ purchase.orderDate }</td>
 			  <td align="left">			  
 				<input type="hidden" value="${purchase.tranNo }" />
 			  	<i class="glyphicon glyphicon-ok" id= "${purchase.tranNo }"></i>
