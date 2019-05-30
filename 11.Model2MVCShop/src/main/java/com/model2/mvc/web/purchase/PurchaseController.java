@@ -64,8 +64,8 @@ public class PurchaseController {
 	int pageSize;
 
 	@RequestMapping(value = "addPurchase", method = RequestMethod.GET)
-	public String addPurchase(@RequestParam("prod_no") String prodNo,@RequestParam("prodCount") int prodCount, HttpSession session, Model model)
-			throws Exception {
+	public String addPurchase(@RequestParam("prod_no") String prodNo, @RequestParam("prodCount") int prodCount,
+			HttpSession session, Model model) throws Exception {
 
 		System.out.println("/purchase/addPurchase : GET");
 
@@ -87,24 +87,25 @@ public class PurchaseController {
 
 		return "forward:/purchase/addPurchaseView.jsp";
 	}
+
 	@RequestMapping(value = "addPurchase", method = RequestMethod.POST)
 	public String addPurchase(@ModelAttribute("purchase") Purchase purchase, @RequestParam("prodNo") String prodNo,
 			HttpSession session, Model model) throws Exception {
 
 		System.out.println("/purchase/addPurchase : POST");
 		User user = (User) session.getAttribute("user");
-		
+
 		Map<String, Object> map = productService.getgetProduct(prodNo);
 		List<Product> produ = (List<Product>) map.get("list");
 		List<Purchase> purcha = new ArrayList<Purchase>();
-		
-		for(int i=0; i<produ.size();i++) {
-			
-			purchase.setBuyer(user);
-			purchase.setPurchaseProd(produ.get(i));	
 
-			purcha.add(purchase);	
-			
+		for (int i = 0; i < produ.size(); i++) {
+
+			purchase.setBuyer(user);
+			purchase.setPurchaseProd(produ.get(i));
+
+			purcha.add(purchase);
+
 			Product product2 = productService.getProduct(produ.get(i).getProdNo());
 			int count = product2.getCount() - purchase.getCount();
 			product2.setCount(count);
@@ -113,11 +114,10 @@ public class PurchaseController {
 		purchaseService.addPurchase(purcha);
 
 		model.addAttribute("list", map.get("list"));
-	
-
 
 		return "forward:/purchase/addPurchase.jsp";
-	}	
+	}
+
 	@RequestMapping(value = "addCartPurchase", method = RequestMethod.GET)
 	public String addCartPurchase(@RequestParam("cartNo") String cartNo, HttpSession session, Model model)
 			throws Exception {
@@ -138,7 +138,7 @@ public class PurchaseController {
 		String prodNo = null;
 		List<Cart> productList = (List<Cart>) map.get("list");
 		for (int i = 0; i < productList.size(); i++) {
-			prodNo += (","+productList.get(i).getCartProd().getProdNo());
+			prodNo += ("," + productList.get(i).getCartProd().getProdNo());
 		}
 
 		model.addAttribute("list", map.get("list"));
@@ -149,50 +149,45 @@ public class PurchaseController {
 	}
 
 	@RequestMapping(value = "addCartPurchase", method = RequestMethod.POST)
-	public String addCartPurchase(@ModelAttribute("purchase") Purchase purchase, @RequestParam("prodNo") String prodNo,
-			@RequestParam("cartCount") List<String> cartCount,HttpSession session, Model model) throws Exception {
+	public String addCartPurchase(@ModelAttribute("purchase") Purchase purchase,
+			@RequestParam("cartNo") List<String> cartNo, HttpSession session, Model model) throws Exception {
 
 		System.out.println("/purchase/addCartPurchase : POST");
-		
-		System.out.println(cartCount.get(0));
-		System.out.println(cartCount.get(1));	
 
 		User user = (User) session.getAttribute("user");
-		
-		System.out.println("$$$$$$$$$$$$$$$$$$$$$"+prodNo);
-		Map<String, Object> map = productService.getgetProduct(prodNo);
-		List<Product> produ = (List<Product>) map.get("list");
 		List<Purchase> purcha = new ArrayList<Purchase>();
-		
-		for(int i=0; i<produ.size();i++) {
-			
+
+		for (int i = 0; i < cartNo.size(); i++) {
+
+			Map<String, Object> map = cartService.getCart(cartNo.get(i));
+			List<Cart> cart = (List<Cart>) map.get("list");
+
+			Product product = productService.getProduct(cart.get(0).getCartProd().getProdNo());
 			Purchase purchase2 = new Purchase();
-			
+
 			purchase2.setBuyer(user);
-			purchase2.setPurchaseProd(produ.get(i));	
-			System.out.println("1111111111111111"+produ.get(i).getProdNo());
+			purchase2.setPurchaseProd(product);
 			purchase2.setDivyAddr(purchase.getDivyAddr());
 			purchase2.setDivyDate(purchase.getDivyDate());
 			purchase2.setDivyRequest(purchase.getDivyRequest());
 			purchase2.setPaymentOption(purchase.getPaymentOption());
 			purchase2.setReceiverName(purchase.getReceiverName());
 			purchase2.setReceiverPhone(purchase.getReceiverPhone());
-			purchase2.setCount(Integer.parseInt(cartCount.get(i)));
+			purchase2.setCount(cart.get(0).getCartCount());
 
+			purcha.add(purchase2);
 
-			purcha.add(purchase2);	
-			
-			Product product2 = productService.getProduct(produ.get(i).getProdNo());
+			Product product2 = productService.getProduct(product.getProdNo());
 			int count = product2.getCount() - purchase2.getCount();
 			product2.setCount(count);
 			productService.updateProduct(product2);
+
 		}
 		purchaseService.addPurchase(purcha);
-		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+purcha);
-		model.addAttribute("list", map.get("list"));
-		model.addAttribute("purchase2",purcha);
+		model.addAttribute("purchase2", purcha);
 
 		return "forward:/purchase/addCartPurchase.jsp";
+
 	}
 
 	@RequestMapping(value = "getPurchase", method = RequestMethod.GET)

@@ -104,41 +104,6 @@
 			  <td align="left">${purchase.purchaseProd.price * purchase.count } won</td>	  
 			</tr>
 			  </c:forEach>	  
-			
-<!--  	  <c:set var="i" value="0" />	  
-		  <c:set var="doneLoop" value="false"/> 
-		   <c:set var="num" value="0"/>
-		  
-		  <c:forEach var="product" items="${list}">
-	 	  <c:set var="i" value="${ i+1 }" />
-		   
-		  <c:set var="doneLoop" value="false"/>
-			 <c:forEach var="purchase" items="${purchase2}" begin="${num }" >
-		  	<c:if test="${not doneLoop}"> 
-			<tr>		
-			  <td align="center">${ i }</td>
-			  <td align="left"  title="Click : 상품정보 확인">${purchase.purchaseProd.prodName}		  
-			  </td>
-			  <td align="left">
-					<c:if test="${ empty product.fileName }">
-						 <img src="/images/uploadFiles/no_image.gif" width="100px;" height="100px;"/>						    
-					 </c:if>
-					<c:if test="${ !empty product.fileName}">						    
-						      <img src="/images/uploadFiles/${product.fileName}"  width="100px;" height="100px;"/>
-					</c:if>			  
-			  </td>			  
-			  <td align="left">${product.prodDetail}</td>		
-							 	
-			  <td align="left">${purchase.count}</td>	
-			  <td align="left">${purchase.purchaseProd.price * purchase.count } won</td>	
-			  <c:set var="doneLoop" value="true"/> 
-		   <c:set var="num" value="${num+1 }"/>			  
-			</tr>
-			</c:if>
-			  </c:forEach>	  
-			
-          </c:forEach>
- -->	       
         </tbody> 
       
       </table>

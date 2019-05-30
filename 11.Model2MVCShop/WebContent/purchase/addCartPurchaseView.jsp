@@ -173,7 +173,7 @@
 		  <c:set var="i" value="0" />
 		  <c:forEach var="cart" items="${list}">
 			<c:set var="i" value="${ i+1 }" />
-			   <input type="hidden" name="cartCount" value="${cart.cartCount}" />	
+			   <input type="hidden" name="cartNo" value="${cart.cartNo}" />	
 			<tr>		
 			  <td align="center">${ i }</td>
 			  <td align="left"  title="Click : 상품정보 확인">${cart.cartProd.prodName}		  
