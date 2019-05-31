@@ -14,6 +14,8 @@ public interface UserDao {
 
 	// SELECT ONE
 	public User getUser(String userId) throws Exception ;
+	
+	public User getKakaoUser(String kakaoId) throws Exception;
 
 	// SELECT LIST
 	public List<User> getUserList(Search search) throws Exception ;

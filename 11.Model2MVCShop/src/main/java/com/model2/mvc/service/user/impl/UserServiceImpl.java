@@ -39,6 +39,11 @@ public class UserServiceImpl implements UserService{
 	public User getUser(String userId) throws Exception {
 		return userDao.getUser(userId);
 	}
+	
+	@Override
+	public User getKakaoUser(String kakaoId) throws Exception {
+		return userDao.getKakaoUser(kakaoId);
+	}
 
 	public Map<String , Object > getUserList(Search search) throws Exception {
 		List<User> list= userDao.getUserList(search);
@@ -63,4 +68,5 @@ public class UserServiceImpl implements UserService{
 		}
 		return result;
 	}
+
 }

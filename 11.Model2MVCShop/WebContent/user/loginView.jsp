@@ -137,7 +137,7 @@
 								     Kakao.API.request({								
 								       url: '/v1/user/me',							
 								       success: function(res) {							
-								    	   alert(res.properties['nickname']+"님 환영합니다 ^^.\n(디비에 뭘넣을지모름 user01로 로그인해주세요~~)")
+								    	   alert(res.properties['nickname']+"님 환영합니다 ^^.\n 가입하세염~~")
 /* 								             alert(JSON.stringify(res)); //<---- kakao.api.request 에서 불러온 결과값 json형태로 출력
 								             alert(JSON.stringify(authObj)); //<----Kakao.Auth.createLoginButton에서 불러온 결과값 json형태로 출력
 								             console.log(res.id);//<---- 콘솔 로그에 id 정보 출력(id는 res안에 있기 때문에  res.id 로 불러온다)								
@@ -145,7 +145,7 @@
 								             console.log(res.properties['nickname']);//<---- 콘솔 로그에 닉네임 출력(properties에 있는 nickname 접근 								
 								         // res.properties.nickname으로도 접근 가능 )								
 								             console.log(authObj.access_token);//<---- 콘솔 로그에 토큰값 출력 */
-								    	     location.href="/index.jsp";
+								    	     location.href="/user/KakaoUserLogin?kakaoId="+res.id;
 								           }
 								
 								         })

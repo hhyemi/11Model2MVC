@@ -210,3 +210,6 @@ alter table transaction add(count number(10));
 리뷰에 컬럼 추가
 alter table review add(REG_DATE  DATE);
 commit;
+
+//카카오 아이디 컬럼 추가
+alter table users add(KAKAO_ID VARCHAR2(20));
