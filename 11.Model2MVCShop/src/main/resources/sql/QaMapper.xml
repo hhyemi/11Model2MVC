@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="QaMapper">
+
+
+	<resultMap id="qaSelectMap" type="qa">
+		<result property="qaNo" column="QA_NO" jdbcType="INTEGER" />
+		<result property="buyer.userId" column="USER_ID" jdbcType="VARCHAR" />
+		<result property="qaProd.prodNo" column="PROD_NO" jdbcType="INTEGER" />
+		<result property="fileName" column="IMAGE_FILE" jdbcType="VARCHAR" />
+		<result property="title" column="TITLE" jdbcType="VARCHAR" />
+		<result property="qaText" column="QA_TEXT" jdbcType="VARCHAR" />
+	    <result property="pwCheck" column="PWCHECK" jdbcType="INTEGER" />
+		<result property="password" column="PASSWORD" jdbcType="VARCHAR" />
+		<result property="regDate" column="REG_DATE" jdbcType="DATE" />		
+	</resultMap>
+
+	<!-- SQL : INSERT -->
+	<insert id="addQa" parameterType="qa">
+		INSERT
+		INTO QA(
+		QA_NO , USER_ID , PROD_NO , IMAGE_FILE , TITLE,QA_TEXT,PWCHECK,PASSWORD,REG_DATE)
+		VALUES (SEQ_QA_QA_NO.NEXTVAL ,
+		#{buyer.userId:VARCHAR} , #{qaProd.prodNo:INTEGER}  ,#{fileName:VARCHAR} ,#{title:VARCHAR},
+		#{qaText:VARCHAR},#{pwCheck:INTEGER} ,#{password:VARCHAR},SYSDATE )
+	</insert>
+
+	<!-- SQL : SELECT ONE -->
+	<select id="getQa" parameterType="string" resultMap="qaSelectMap">
+		SELECT
+		QA_NO , USER_ID , PROD_NO , IMAGE_FILE , TITLE,QA_TEXT,PWCHECK,PASSWORD,REG_DATE
+		FROM QA
+		WHERE QA_NO = #{value}
+	</select>
+
+	<!-- SQL : UPDATE -->
+	<update id="updateQa" parameterType="qa">
+		UPDATE QA
+		<set>
+			TITLE = #{title:VARCHAR},
+			IMAGE_FILE = #{fileName:VARCHAR} ,
+			QA_TEXT = #{qaText:VARCHAR},
+		</set>
+		WHERE QA_NO = #{qaNo}
+	</update>
+	
+		<!-- SQL : pwcheck SELECT -->
+	<select id="pwCheckQa" parameterType="qa" resultMap="qaSelectMap">
+		select QA_NO , USER_ID , PROD_NO , IMAGE_FILE , TITLE,QA_TEXT,PWCHECK,PASSWORD,REG_DATE
+		FROM qa
+		<where>
+			QA_NO = #{qaNo} AND
+			PASSWORD = #{password}
+		</where>	
+	</select>
+
+	<!-- SQL : SELECT LIST -->
+	<select id="getQaList" parameterType="search" resultMap="qaSelectMap">
+		SELECT *
+		FROM ( SELECT inner_table.* , ROWNUM AS row_seq
+		FROM (	SELECT
+		QA_NO , USER_ID , PROD_NO , IMAGE_FILE , TITLE,QA_TEXT,PWCHECK,PASSWORD,REG_DATE
+		FROM QA
+		<where>
+			<if test="prodNo != null ">
+			AND PROD_NO = #{prodNo}
+			</if>
+		</where>
+		 ORDER BY reg_date DESC	
+		) inner_table
+		WHERE ROWNUM &lt;= #{endRowNum} )
+		WHERE row_seq BETWEEN
+		#{startRowNum} AND
+		#{endRowNum}
+	</select>
+
+
+	<!-- SQL : SELECT ROW Count -->
+	<select id="getTotalCount" parameterType="qa" resultType="int">
+		SELECT COUNT(*)
+		FROM( SELECT
+		QA_NO , USER_ID , PROD_NO , IMAGE_FILE , TITLE,QA_TEXT,PASSWORD,REG_DATE
+		FROM qa
+		<where>
+			<if test="prodNo != null ">
+			AND PROD_NO = #{prodNo}
+			</if>
+		</where>
+		) countTable
+	</select>
+
+</mapper>

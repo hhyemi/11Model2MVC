@@ -211,6 +211,10 @@
     <jsp:include page="/review/listReview?prod_no=${product.prodNo}" />
 	</div>
 
+
+ 	<div>
+    <jsp:include page="/qa/listQa?prod_no=${product.prodNo}" />
+	</div>
 </body>
 
 </html>

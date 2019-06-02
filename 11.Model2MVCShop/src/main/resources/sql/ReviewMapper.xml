@@ -70,7 +70,8 @@
 			<if test="prodNo != null ">
 			AND PROD_NO = #{prodNo}
 			</if>
-		</where>		
+		</where>
+		 ORDER BY reg_date DESC	
 		) inner_table
 		WHERE ROWNUM &lt;= #{endRowNum} )
 		WHERE row_seq BETWEEN

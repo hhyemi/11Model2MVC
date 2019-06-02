@@ -213,3 +213,22 @@ commit;
 
 //카카오 아이디 컬럼 추가
 alter table users add(KAKAO_ID VARCHAR2(20));
+
+//구매문의 테이블
+create table QA(
+qa_no number NOT NULL,
+USER_ID varchar2(20) NOT NULL,
+PROD_NO NUMBER NOT NULL,
+image_file 	VARCHAR2(100),
+title varchar2(200),
+qa_text varchar2(500),
+password varchar2(20),
+REG_DATE  DATE
+);
+
+CREATE SEQUENCE seq_qa_qa_no	INCREMENT BY 1 START WITH 10000;
+
+alter table qa add(pwCheck NUMBER );
+
+ALTER TABLE review
+MODIFY (title VARCHAR2(200) );

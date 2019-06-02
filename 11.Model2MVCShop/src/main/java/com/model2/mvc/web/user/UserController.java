@@ -148,7 +148,7 @@ public class UserController {
 
 		String kakaoId = (String) session.getAttribute("kakoId");
 
-		user.setUserId("카카오회원");
+		user.setUserId(kakaoId);
 		user.setPassword(kakaoId);
 		user.setKakaoId(kakaoId);
 

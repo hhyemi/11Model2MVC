@@ -39,7 +39,7 @@
         .picture{
           color: #ff0000; 
         }
- 		.reviewWrite{
+		.write{
 		background: #fff;
         border:1px solid #b9babb;       
 		margin:3px;
@@ -55,7 +55,6 @@
 
 function fncGetList(currentPage) {
    	$("#currentPage").val(currentPage)
-   	//$("form").attr("method" , "POST").attr("action" , "/review/listReview?prod_no="+$("#prodNo").val()).submit();
 	$("form").attr("method" , "POST").attr("action" , "/product/getProduct?prodNo="+$("#prodNo").val()+"&menu=${param.menu}").submit();
 
 }
@@ -67,31 +66,15 @@ $(function(){
 
 	$(".ct_list_pop:nth-child(4n+6)" ).css("background-color" , "whitesmoke");
 	
-	$( ".reviewGet" ).on("click" , function() {	
-		self.location ="/review/getReview?reviewNo="+$("#reviewNo").val()
-	});
-	
-	//============= "후기쓰기"  Event 처리 및  연결 =============
-	 $( ".reviewWrite" ).on("click" , function() {
-		 //alert($("#prodNo").val())
-			self.location="/review/addReview?prodNo="+$("#prodNo").val();
-		});
-	 
-		//============= "후기수정"  Event 처리 및  연결 =============
-	 $( 'i[class="glyphicon glyphicon-pencil"]' ).on("click" , function() {
-			self.location="/review/getReview?reviewNo="+$(this).children("input").val()
-		});	
-	
-	
-	//============= "후기보기"  Event 처리 및  연결 =============	
-	$( ".reviewTitle" ).on("click" , function() {
-		//alert($(this).children("input").val());
-		 //self.location ="/review/getReview?reviewNo="+$(this).children("input").val()
-		var reviewNo = $(this).children("input").val();
-		//alert(reviewNo);
-		$.ajax( 			
+	//============= "문의보기"  Event 처리 및  연결 =============	
+	$( ".qaTitle" ).on("click" , function() {
+		
+		var qaNo = $(this).children("input").val();
+		//alert(qaNo);
+		
+		 $.ajax( 			
 				{
-			    	url : "/review/json/getReview/"+reviewNo,
+			    	url : "/qa/json/getQa/"+qaNo,
 					method : "GET" ,
 					dataType : "json" ,
 					headers : {
@@ -105,39 +88,50 @@ $(function(){
 						//Debug...
 						//alert("JSONData : \n"+JSONData);
 						//alert(JSONData.reviewNo);
-						
-						var eval=null;
-						if(JSONData.evaluation==1){
-							eval="대만족";
-						}else if(JSONData.evaluation==2){
-							eval="만족";
-						}else if(JSONData.evaluation==3){
-							eval="보통";
-						}else if(JSONData.evaluation==4){
-							eval="불만족";
-						}
-						
+						if(JSONData.pwCheck == 1){
 						 var displayValue = "<h6>"
-													+"구매 후기 번호 : "+JSONData.reviewNo+"<br/>"
-													+"상품 번호 : "+JSONData.reviewProd.prodNo+"<br/>"
 													+"구 매 자 : "+JSONData.buyer.userId+"<br/>"
 													+"제목 : "+JSONData.title+"<br/>"
-													+"내용 : "+JSONData.reviewText+"<br/>"		
-													+"선호도 : "+eval+"<br/>"; 
+													+"내용 : "+JSONData.qaText+"<br/>"; 
 													
 						if(JSONData.fileName != null){
 							displayValue += "이미지 : <img src=/images/uploadFiles/"+JSONData.fileName+" width=\"300px\" height=\"300px\"/> <br/></h6>";
 						}else{
 							displayValue += "</h6>";
 						}
+						}else{
+							var displayValue ="<h6><br/>비밀번호 : <input type=\"password\" id=\"pw\" name=\"pw\"/>"
+											   +"<button type=\"button\" class=\"pwWrite\">확인</button>"
+											   +"</h6>";
+						}
 						//Debug...									
 						//alert(displayValue);
 						$("h6").remove();
-						$( "#"+reviewNo+"" ).html(displayValue);
+						$( "#"+qaNo+"" ).html(displayValue);
 					}
-			});		
+			});		 
 		
 	}); 
+	
+	
+	//============= "문의쓰기"  Event 처리 및  연결 =============
+	 $( ".write" ).on("click" , function() {
+		 //alert($("#prodNo").val())
+			self.location="/qa/addQa?prodNo="+$("#prodNo").val();
+		});
+	 
+/* 		//============= "문의수정"  Event 처리 및  연결 =============
+	 $( 'i[class="glyphicon glyphicon-pencil"]' ).on("click" , function() {
+			self.location="/review/getReview?reviewNo="+$(this).children("input").val()
+		});	 */
+		
+		//============= "문의쓰기"  Event 처리 및  연결 =============
+	 $( ".pwWrite" ).on("click" , function() {
+		 alert("ㅋㅋ")
+			//self.location="/qa/addQa?prodNo="+$("#prodNo").val();
+		});
+	
+	
 	
 
 });
@@ -152,10 +146,10 @@ $(function(){
 	
 	<!--  화면구성 div Start /////////////////////////////////////-->
 	<div class="container">
-	
-	      <br/> <h3 class=" text-info">구매후기목록</h3><hr/>
-	        <img  src="/images/uploadFiles/review.PNG"  width="1100px;" height="400px"/>
-	       <h5 class="text-muted">구매  <strong class="text-danger">후기</strong> 조회입니다.</h5>
+
+	      <br/> <h3 class=" text-info">구매문의목록</h3><hr/>
+	        <img  src="/images/uploadFiles/qa.PNG"  width="1100px;" height="300px"/>
+	       <h5 class="text-muted">구매  <strong class="text-danger">문의</strong> 조회입니다.</h5>
 	      
 	    <!-- table 위쪽 검색 Start /////////////////////////////////////-->
 	      
@@ -181,65 +175,48 @@ $(function(){
         <thead>
           <tr>
             <th align="center">No</th>
-            <th align="left" >후기제목</th>
-            <th align="left">선호도</th>
+            <th align="left" >제목</th>
             <th align="left">구매자아이디</th> 
-			<th align="left">수정하기</th>
-			<th align="left">등록일</th>             			
+<!-- 			<th align="left">수정하기</th> -->
+			<th align="left">작성일</th>             			
           </tr>
         </thead>
        
  		<tbody>				
 		  <c:set var="i" value="0" />
-		  <c:forEach var="review" items="${list}">
+		  <c:forEach var="qa" items="${list}">
 			<c:set var="i" value="${ i+1 }" />
 			<tr>
-			  <td align="left" class="reviewGet" >${ i }</td>
-			  <td align="left" class="reviewTitle" >${review.title}
-			  <c:if test="${review.fileName != null }">
-			  <img  src="/images/uploadFiles/picture_icon.gif">
+			  <td align="left" >${ i }</td>
+			  <td align="left" class="qaTitle" >${qa.title}
+			  <c:if test="${qa.pwCheck eq 2 }">
+			  <img  src="/images/uploadFiles/padlock.png">
 			  </c:if>
-			  <p  id="${review.reviewNo}"></p>
-			  
-			  <input type="hidden" name="reviewNo" id="reviewNo" value="${review.reviewNo }" /></td>		  
-				<td align="left"><strong class="text-danger">
-				<c:if test="${review.evaluation eq 1 }">
-						★★★★★
-				</c:if>
-				<c:if test="${review.evaluation eq 2}">
-						★★★★
-				</c:if>
-				<c:if test="${review.evaluation eq 3 }">
-						★★
-				</c:if>
-				<c:if test="${review.evaluation eq 4}">
-						★
-				</c:if>
-				</strong></td>
-			  <td align="left">${review.buyer.userId}</td>	
-			  <td align="left">			  
+			 <div  id="${qa.qaNo}"></div>
+			<input type="hidden" name="qaNo" id="qaNo" value="${qa.qaNo }" />			  
+			  </td>  
+			  <td align="left">${qa.buyer.userId}</td>	
+<%-- 			  <td align="left">			  
 			  	<i class="glyphicon glyphicon-pencil">
-				<input type="hidden" value="${review.reviewNo }" /></i>
-			  </td>		
-			  <td align="left">${review.regDate}</td>				 
+				<input type="hidden" value="${qa.qaNo }" /></i>
+			  </td>	 --%>	
+			  <td align="left">${qa.regDate}</td>				 
 			</tr>
-		<input type="hidden" id="prodNo" name="prodNo" value="${review.reviewProd.prodNo}"/>
+		<input type="hidden" id="prodNo" name="prodNo" value="${qa.qaProd.prodNo}"/>
           </c:forEach>
         
         </tbody> 
       
       </table>
-     <input type="hidden" id="prodNo" value="${product.prodNo}" />	
 
 	  <!--  table End /////////////////////////////////////--> 
 		<div class="row">
 			 <div class="col-md-12 text-right">
-	  			<button type="button" class="reviewWrite">WRITE</button>		
+	  			<button type="button" class="write">WRITE</button>		
 	  		</div> 				
 	 	</div>
  	</div>
  	<!--  화면구성 div End /////////////////////////////////////-->
- 	
  	
  	<!-- PageNavigation Start... -->
 	<jsp:include page="../common/pageNavigator_new.jsp"/>

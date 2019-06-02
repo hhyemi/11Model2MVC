@@ -107,8 +107,14 @@
 		 $(function() {
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 		 	$("a:contains('로그아웃')").on("click" , function() {
+		 		/* 		 		alert("ff")
+		 		
+				Kakao.init('25d322a4d604775797962e898c93dcb8');
+		 		Kakao.Auth.logout(function() { 
+		 			console.log("logged out."); 
+		 			}); */
+				
 				$(self.location).attr("href","/user/logout");
-				//self.location = "/user/logout"
 			}); 
 		 });
 		
@@ -163,6 +169,7 @@
 						"popWin",
 						"left=300, top=200, width=300, height=200, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
 				});
+		
 	</script>  
 	
 	
