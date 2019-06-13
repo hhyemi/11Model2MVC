@@ -23,6 +23,7 @@
    
     <!-- Bootstrap Dropdown Hover JS -->
    <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
+  
 	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
@@ -87,10 +88,9 @@
 				 alert("장바구니에 담겼습니다. (장바구니코너에서 확인!)")
 				 self.location="/cart/addCart?prod_no=${product.prodNo}"
 			});
-			
-		});
+
 	
-	 $(function() {
+
 		 
  		if(${product.count}==0){
 		 $( ".spinner" ).spinner({ //스피너를 만들어준다.
@@ -118,9 +118,11 @@
 			    }
 			});	 
 
-
 	 });
-	</script>
+
+
+
+	 </script>
 </head>
 
 <body>
@@ -196,6 +198,8 @@
 		<div class="row">
 	  			<button type="button" id="btn-cart">ADD TO CART</button>
 	  			<button type="button" id="btn-wish">WISH LIST</button>
+
+
 		</div>		
 		<hr/>
 		

@@ -16,6 +16,11 @@
 	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+	
+	      <!-- i'm port -->
+   <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+   <script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+   
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	
@@ -33,6 +38,7 @@
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
    	<!--  ///////////////////////// 우편번호 CDN ////////////////////////// -->	
 	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+
    	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
@@ -138,7 +144,42 @@
 	        }).open();
 	    }	
 	
+	 
+/////////////////////////////////////////////////////////i'm port
+
+$(function() {
+
+	$("#check_module").click(function () {
+		IMP.init('imp85290840'); //iamport 대신 자신의 "가맹점 식별코드"를 사용하시면 됩니다
+		IMP.request_pay({
+		merchant_uid : 'merchant_' + new Date().getTime(),
+		name : '결제테스트',
+		amount : 100,
+		buyer_email : 'iamport@siot.do',
+		buyer_name : '구매자',
+		buyer_tel : '010-1234-5678',
+		buyer_addr : '서울특별시 강남구 삼성동',
+		buyer_postcode : '123-456'
+		
+		}, function(rsp) {
+		if ( rsp.success ) {
+		var msg = '결제가 완료되었습니다.';
+		msg += '고유ID : ' + rsp.imp_uid;
+		msg += '상점 거래ID : ' + rsp.merchant_uid;
+		msg += '결제 금액 : ' + rsp.paid_amount;
+		msg += '카드 승인번호 : ' + rsp.apply_num;
+		$("#check_module").html("<h6>거래완료!!</h6>");
+
+		} else {
+		var msg = '결제에 실패하였습니다.';
+		msg += '에러내용 : ' + rsp.error_msg;
+		}
+		
+		alert(msg);
+		});
+	});
 	
+	});	 	
 	</script>
 </head>
 
@@ -281,6 +322,7 @@
 		    <div class="col-sm-offset-4  col-sm-4 text-center">
 				<button type="button" class="btn btn-primary">구매</button>
 	  			<button type="button" class="btn btn-warning">취소</button>
+				<button id="check_module" type="button">아임 서포트 결제</button>
 		    </div>
 		  </div>
 		</form>	
