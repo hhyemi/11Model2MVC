@@ -2,6 +2,7 @@ package com.model2.mvc.web.product;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.UUID;
 
@@ -69,7 +70,7 @@ public class ProductController {
 		return new ModelAndView("redirect:/product/addProductView.jsp");
 	}
 
-	// @RequestMapping("/addProduct.do")
+/*	// @RequestMapping("/addProduct.do")
 	@RequestMapping(value = "addProduct", method = RequestMethod.POST)
 	public ModelAndView addProduct(@ModelAttribute("product") Product product,
 			@RequestParam("uploadFile") MultipartFile uploadFile) throws Exception {
@@ -100,7 +101,41 @@ public class ProductController {
 
 		return new ModelAndView("forward:/product/addProduct.jsp");
 	}
+*/
+	
+	@RequestMapping(value = "addProduct", method = RequestMethod.POST)
+	public ModelAndView addProduct(@ModelAttribute("product") Product product,
+			@RequestParam("uploadFile") MultipartFile uploadFile,@RequestParam("multiFile") ArrayList<String> multiFile) throws Exception {
 
+		System.out.println("/product/addProduct : POST");
+		// Business Logic
+		String manuDate = product.getManuDate().replaceAll("-", "");
+		product.setManuDate(manuDate);
+
+		//컬럼나눠서 나중에는 하나씩넣어줄거임 ㅎㅎㅎ
+		String fileName = multiFile.get(0);
+		//String fileName = uploadFile.getOriginalFilename();
+
+		File f = new File(fileroot, fileName);
+		// 한번에 한해서 동일한 파일이 존재하면 이름에 (1) ,
+		// (나중에)2번째에도 검사해서 이름을 편해보고, 확장자 앞에 다른 이름을 추가하도록 해보자
+		if (f.exists()) {
+			f = new File(fileroot, fileName + "(1)");
+		}
+
+		try {
+			uploadFile.transferTo(f);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		product.setFileName(fileName);
+
+		productService.addProduct(product);
+
+		return new ModelAndView("forward:/product/addProduct.jsp");
+	}	
+	
 	// @RequestMapping("/getProduct.do")
 	@RequestMapping(value = "getProduct")
 	public ModelAndView getProduct(HttpServletRequest request, HttpServletResponse response,

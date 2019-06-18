@@ -23,6 +23,8 @@
    
     <!-- Bootstrap Dropdown Hover JS -->
    <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
+   
+   <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
   
 	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
@@ -119,8 +121,32 @@
 			});	 
 
 	 });
-
-
+	 
+	 
+	 Kakao.init('25d322a4d604775797962e898c93dcb8');
+	 function sendLinkKakao(){
+	     Kakao.Link.sendDefault({
+	       objectType: 'feed',
+	       content: {
+	         title: '유기견보호',
+	         description: '멍멍',
+	         imageUrl:document.location.href,
+	         link: {
+	           mobileWebUrl: document.location.href,
+	           webUrl:document.location.href
+	         }
+	       },
+	       buttons: [       
+	         {
+	           title: '링크 열기',
+	           link: {
+	             mobileWebUrl: document.location.href,
+	             webUrl: document.location.href
+	           }
+	         }
+	       ]
+	     }); 
+	 }
 
 	 </script>
 </head>
@@ -198,9 +224,13 @@
 		<div class="row">
 	  			<button type="button" id="btn-cart">ADD TO CART</button>
 	  			<button type="button" id="btn-wish">WISH LIST</button>
-
-
 		</div>		
+		
+<a href="#" onclick="javascript:window.open('https://twitter.com/intent/tweet?text=[%EA%B3%B5%EC%9C%A0]%20' +encodeURIComponent(document.URL)+'%20-%20'+encodeURIComponent(document.title), 'twittersharedialog', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');return false;" target="_blank" alt="Share on Twitter" ><img src="/images/twitter.png"></a>
+<a href="#" onclick="javascript:window.open('https://www.facebook.com/sharer/sharer.php?u=' +encodeURIComponent(document.URL)+'&t='+encodeURIComponent(document.title), 'facebooksharedialog', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');return false;" target="_blank" alt="Share on Facebook" ><img src="/images/facebook.png"></a>
+<a href="#" onclick="javascript:window.open('https://share.naver.com/web/shareView.nhn?url=' +encodeURIComponent(document.URL)+'&title=hyemi!', 'naversharedialog', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');return false;" target="_blank" alt="Share on Naver" ><img src="/images/naver.png"></a>
+<a href="javascript:sendLinkKakao()" id="kakao-link-btn" title="카카오톡으로 공유"> <img src="/images/kakao.png"  alt="Kakaotalk"> </a>
+
 		<hr/>
 		
 		</div>
