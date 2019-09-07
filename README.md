@@ -22,5 +22,4 @@
 *	일반 회원관리 서비스
 
 ## 3. 화면구성
-![main](https://user-images.githubusercontent.com/50124537/64471739-1cc9e500-d190-11e9-8476-b058fdcfc9d7.png)
-
+![shop](https://user-images.githubusercontent.com/50124537/64472533-d8901200-d19a-11e9-81b3-51e5405d1121.png)
