@@ -7,8 +7,8 @@
 * Tool : eclipse, Oracle SQL Developer, GitHub
 * Database : oracle 11g
 * Web Server : Apache Tomcat 9.0.21
-* Framwork : Spring 4.0.9, JDBC, jQuery, AJAX, BootStrap, JUnit4, Log4jdbc, Aspectj, JSON-simple, Jackson
-* MyBatis 3.2.1
+* Framwork : Spring 4.0.9, JDBC, jQuery, BootStrap, JUnit4, Log4jdbc, Aspectj, JSON-simple, Jackson, MyBatis 3.2.1
+* Etc : AJAX
 * API : kakao 로그인 API, kakao공유 API, facebook공유 API, twitter 공유 API,  Daum 주소 API, I’m port API
 
 
