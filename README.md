@@ -22,3 +22,4 @@
 
 ## 3. 화면구성
 ![shop](https://user-images.githubusercontent.com/50124537/64472533-d8901200-d19a-11e9-81b3-51e5405d1121.png)
+![shop22](https://user-images.githubusercontent.com/50124537/119298599-50b4a900-bc98-11eb-9e22-7150c8b7e603.png)
